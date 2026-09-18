@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Simulatore Quiz</title>
+
+    <!-- Foglio di Stile Esterno -->
+    <link rel="stylesheet" href="./style.css">
+
+    <!-- Configurazione PWA & Installazione -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#007bff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Quiz App">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icona.png">
+    <link rel="icon" type="image/png" href="icona.png">
+
+    <!-- Meta Autore -->
+    <meta name="author" content="Ivan D.">
+    <meta name="copyright" content="Ivan D. 2026">
+
+    <!-- Libreria QR Code affidabile via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+<div class="app-container">
+    
+    <!-- MENU CONFIGURAZIONE -->
+    <div id="setup-screen" style="display: flex; flex-direction: column; height: 100%;">
+        <div class="app-header">Nuovo Test</div>
+        
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('materie', event)">MATERIE</button>
+            <button class="tab-btn" onclick="switchTab('quiz', event)"># QUIZ</button>
+            <button class="tab-btn" onclick="switchTab('modo', event)">MODO</button>
+            <button class="tab-btn" onclick="switchTab('opzioni', event)">OPZIONI</button>
+        </div>
+
+        <!-- TAB MATERIE -->
+        <div id="tab-materie" class="tab-content active">
+            <div class="list-group">
+                <div class="list-item selected" onclick="selectModulo(0, this)">
+                    <div><strong>TUTTI GLI ARGOMENTI</strong><br><small style="color:#666;">Tutti i moduli</small></div>
+                    <div class="badge-pct" id="pct-0">0%</div>
+                </div>
+                <div class="list-item" onclick="selectModulo(1, this)">
+                    <div><strong>Modulo 1</strong></div>
+                    <div class="badge-pct" id="pct-1">0%</div>
+                </div>
+                <div class="list-item" onclick="selectModulo(2, this)">
+                    <div><strong>Modulo 2</strong></div>
+                    <div class="badge-pct" id="pct-2">0%</div>
+                </div>
+                <div class="list-item" onclick="selectModulo(3, this)">
+                    <div><strong>Modulo 3</strong></div>
+                    <div class="badge-pct" id="pct-3">0%</div>
+                </div>
+                <div class="list-item" onclick="selectModulo(4, this)">
+                    <div><strong>Modulo 4</strong></div>
+                    <div class="badge-pct" id="pct-4">0%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB # QUIZ -->
+        <div id="tab-quiz" class="tab-content">
+            <div class="list-group" id="quiz-count-list">
+                <!-- Generato dinamico -->
+            </div>
+        </div>
+
+        <!-- TAB MODO -->
+        <div id="tab-modo" class="tab-content">
+            <div class="list-group">
+                <label class="radio-option"><input type="radio" name="modo" value="originale" checked> Ordine originale</label>
+                <label class="radio-option"><input type="radio" name="modo" value="casuale"> Casuale</label>
+                <label class="radio-option"><input type="radio" name="modo" value="ripasso"> 📖 Modalità Ripasso (solo consultazione)</label>
+                <label class="radio-option"><input type="radio" name="modo" value="meno_proposti"> Prima i quesiti meno proposti</label>
+                <label class="radio-option"><input type="radio" name="modo" value="piu_visti"> Prima i quesiti più proposti</label>
+                <label class="radio-option" id="lbl-ripetere"><input type="radio" name="modo" value="ripetere"> Quesiti da ripetere <span id="count-ripetere">(0)</span></label>
+                <label class="radio-option" id="lbl-ripetere-casuale"><input type="radio" name="modo" value="ripetere_casuale"> Quesiti da ripetere (casuale) <span id="count-ripetere-casuale">(0)</span></label>
+                <label class="radio-option" id="lbl-non-affrontati"><input type="radio" name="modo" value="non_affrontati"> Non ancora affrontati <span id="count-non-affrontati">(0)</span></label>
+            </div>
+        </div>
+
+        <!-- TAB OPZIONI -->
+        <div id="tab-opzioni" class="tab-content">
+            <div class="range-info-box">
+                <strong>📌 Numerazione Globale Domande (Macro):</strong>
+                <ul id="module-ranges-list">
+                    <li>Modulo 1: Caricamento...</li>
+                    <li>Modulo 2: Caricamento...</li>
+                    <li>Modulo 3: Caricamento...</li>
+                    <li>Modulo 4: Caricamento...</li>
+                </ul>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <label style="display:block; font-weight:bold; margin-bottom: 8px;">Riprendi dalla domanda n°:</label>
+                <input type="number" id="start-question" value="1" min="1" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 16px;">
+                <small style="color: #666; display: block; margin-top: 8px;">Digita il numero della domanda da cui iniziare.</small>
+            </div>
+
+            <!-- RIQUADRO CON PULSANTI PER SINCRONIZZAZIONE & QR CODE -->
+            <div class="sync-box">
+                <label style="display:block; font-weight:bold; margin-bottom: 8px; font-size: 13px;">🔑 Sincronizzazione Progressi Dispositivi:</label>
+                <input type="text" id="sync-code-input" placeholder="Incolla qui il codice..." style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-family: monospace; font-size: 12px; margin-bottom: 12px;">
+                
+                <div class="sync-btn-grid">
+                    <div class="sync-btn-row">
+                        <button onclick="copiaCodiceSincronizzazione()" style="flex:1; padding: 12px; background-color: var(--info); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 13px;">
+                            📋 Copia Codice
+                        </button>
+                        <button onclick="caricaStatoDaCodice()" style="flex:1; padding: 12px; background-color: var(--success); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 13px;">
+                            📥 Importa Stato
+                        </button>
+                    </div>
+                    
+                    <button onclick="generaQRCodeProgressi()" style="width: 100%; padding: 12px; background-color: var(--purple); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 13px;">
+                        📱 Mostra QR Code per Aprire sul Telefono
+                    </button>
+                </div>
+
+                <!-- CONTENITORE DEDICATO PER IL QR CODE -->
+                <div id="qr-box" class="qr-container">
+                    <span style="font-size: 12px; color: #555; margin-bottom: 8px; font-weight: bold; text-align: center;">Inquadra per aprire l'app aggiornata sul cellulare:</span>
+                    <div id="qrcode-display" style="padding: 10px; background: white; border-radius: 10px; border: 1px solid #ddd;"></div>
+                </div>
+            </div>
+
+            <div style="margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px;">
+                <button onclick="resettaTuttiIDati()" style="width: 100%; padding: 12px; background-color: var(--danger); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">
+                    🗑️ RESETTA TUTTI I PROGRESSI
+                </button>
+            </div>
+        </div>
+
+        <div class="action-bar">
+            <button class="btn-start" onclick="avviaTest()">INIZIA TEST</button>
+            <div class="footer-signature">Ivan D. - v1.1</div>
+        </div>
+    </div>
+
+    <!-- SCHERMATA QUIZ -->
+    <div id="quiz-screen">
+        <div class="quiz-header">
+            <div>
+                <span class="quiz-info" id="quiz-progress-text">Domanda 1 di 30</span> | 
+                <span class="quiz-info" id="quiz-module-text" style="font-weight: bold; color: var(--primary);">Modulo 1</span>
+            </div>
+            <div class="quiz-timer" id="quiz-timer-text">⏱️ 00:00</div>
+        </div>
+        
+        <div class="quiz-body">
+            <!-- TITOLO DOMANDA + CHECKBOX (FISSI IN ALTO) -->
+            <div class="macro-header-box">
+                <span class="macro-id-badge" id="macro-id-badge">Domanda #1</span>
+                <div class="macro-title" id="macro-title-text">Caricamento domanda...</div>
+                
+                <div class="rivedere-inline-box">
+                    <input type="checkbox" id="chk-rivedere" style="transform: scale(1.2); cursor: pointer;">
+                    <label for="chk-rivedere" style="cursor: pointer;">📌 Segna questa domanda da rivedere</label>
+                </div>
+            </div>
+            
+            <!-- ELENCO AFFERMAZIONI V/F (SCORREVOLI) -->
+            <div id="statements-container">
+                <!-- Domande V/F e opzioni -->
+            </div>
+        </div>
+
+        <div class="quiz-footer">
+            <div class="quiz-footer-controls">
+                <button class="nav-btn" id="btn-prev" onclick="quesitoPrecedente()">←</button>
+                <button class="btn-stop" onclick="confermaInterruzione()">STOP</button>
+                <button class="nav-btn" id="btn-next" onclick="quesitoSuccessivo()">→</button>
+                <button class="btn-finish" id="btn-finish" onclick="terminaTest()" style="display: none;">TERMINA</button>
+            </div>
+            <div class="footer-signature">Ivan D. - v1.1</div>
+        </div>
+    </div>
+
+    <!-- RISULTATI -->
+    <div id="results-screen">
+        <h2>Risultato Finale</h2>
+        <div class="res-box">
+            <div class="res-score time" id="res-time">00:00</div>
+            <div>Tempo Impiegato</div>
+        </div>
+        <div class="res-box">
+            <div class="res-score good" id="res-correct">0</div>
+            <div>Risposte Esatte</div>
+        </div>
+        <div class="res-box">
+            <div class="res-score bad" id="res-wrong">0</div>
+            <div>Risposte Errate</div>
+        </div>
+        <button class="btn-start" onclick="tornaAlMenu()" style="margin-top: 20px;">TORNA AL MENU</button>
+        <div class="footer-signature">Ivan D. - v1.1</div>
+    </div>
+
+</div>
+
+<script>
+    console.log("%c Simulatore Quiz - v1.1 - Ideato da Ivan D.", "color: #007bff; font-size: 16px; font-weight: bold; background: #e3f2fd; padding: 5px; border-radius: 5px;");
+
+    // Impedisce lo scorrimento elastico fuori dai blocchi consentiti
+    document.body.addEventListener('touchmove', function(e) {
+        if (!e.target.closest('.tab-content') && !e.target.closest('#statements-container')) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    let config = {
+        moduloSelezionato: 0,
+        numQuesiti: 'TUTTI',
+        modalita: 'originale',
+        domandaIniziale: 1
+    };
+
+    let macroDatabase = [];
+    let sessioneQuiz = [];
+    let indiceCorrente = 0;
+    let risposteUtente = {}; 
+    let spunteManualiSessione = {}; 
+
+    // GESTIONE TIMER TEST
+    let timerInterval = null;
+    let secondiTrascorsi = 0;
+
+    function avviaTimer() {
+        fermaTimer();
+        secondiTrascorsi = 0;
+        aggiornaDisplayTimer();
+        timerInterval = setInterval(() => {
+            secondiTrascorsi++;
+            aggiornaDisplayTimer();
+        }, 1000);
+    }
+
+    function fermaTimer() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+    }
+
+    function aggiornaDisplayTimer() {
+        document.getElementById('quiz-timer-text').innerText = `⏱️ ${formattaTempo(secondiTrascorsi)}`;
+    }
+
+    function formattaTempo(sec) {
+        let ore = Math.floor(sec / 3600);
+        let minuti = Math.floor((sec % 3600) / 60);
+        let s = sec % 60;
+
+        let mStr = minuti.toString().padStart(2, '0');
+        let sStr = s.toString().padStart(2, '0');
+
+        if (ore > 0) {
+            let hStr = ore.toString().padStart(2, '0');
+            return `${hStr}:${mStr}:${sStr}`;
+        }
+        return `${mStr}:${sStr}`;
+    }
+
+    // ALGORITMO MESCOLAMENTO UNIVOCO (Fisher-Yates)
+    function mescolaArray(array) {
+        let arr = [...array];
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    // REGISTRAZIONE SERVICE WORKER
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js').catch(() => {});
+        });
+    }
+
+    // --- UTILITIES LOCALSTORAGE FORMATO COMPATTO ---
+    function getVisteArray() {
+        return JSON.parse(localStorage.getItem('quiz_viste_arr') || '[]');
+    }
+
+    function setVisteArray(arr) {
+        localStorage.setItem('quiz_viste_arr', JSON.stringify(arr));
+    }
+
+    function getDaRipetereArray() {
+        return JSON.parse(localStorage.getItem('quiz_da_ripetere_arr') || '[]');
+    }
+
+    function setDaRipetereArray(arr) {
+        localStorage.setItem('quiz_da_ripetere_arr', JSON.stringify(arr));
+    }
+
+    function getVisteDomanda(globalId) {
+        let arr = getVisteArray();
+        return arr[globalId] || 0;
+    }
+
+    function incrementaVisteDomanda(globalId) {
+        let arr = getVisteArray();
+        arr[globalId] = (arr[globalId] || 0) + 1;
+        setVisteArray(arr);
+    }
+
+    function isDaRipetereDomanda(globalId) {
+        let arr = getDaRipetereArray();
+        return arr.includes(globalId);
+    }
+
+    function setDaRipetereDomanda(globalId, stato) {
+        let arr = getDaRipetereArray();
+        if (stato) {
+            if (!arr.includes(globalId)) arr.push(globalId);
+        } else {
+            arr = arr.filter(id => id !== globalId);
+        }
+        setDaRipetereArray(arr);
+    }
+
+    async function caricaStoricoDalServer() {
+        let urlParams = new URLSearchParams(window.location.search);
+        let stateCode = urlParams.get('state');
+
+        if (stateCode) {
+            try {
+                let jsonStr = atob(stateCode);
+                let payload = JSON.parse(jsonStr);
+
+                if (payload && (payload.v || payload.r)) {
+                    setVisteArray(payload.v || []);
+                    setDaRipetereArray(payload.r || []);
+
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                    alert("✅ Progressi sincronizzati con successo dal QR Code!");
+                }
+            } catch (e) {
+                console.error("Errore nell'importazione dall'URL:", e);
+            }
+        }
+
+        await aggiornaPercentualiAvanzamento();
+        await aggiornaInfoRangeOpzioni();
+    }
+
+    async function salvaStoricoSvolgimento() {
+        if (config.modalita === 'ripasso') return;
+
+        sessioneQuiz.forEach((macro, mIdx) => {
+            let id = macro.globalMacroId;
+            let haErrori = false;
+            let haRisposto = false;
+
+            macro.statements.forEach((st, sIdx) => {
+                let ans = risposteUtente[`${mIdx}_${sIdx}`];
+                if (ans !== undefined) {
+                    haRisposto = true;
+                    if (ans !== st.corretta) haErrori = true;
+                }
+            });
+
+            if (haRisposto) {
+                let spuntatoAMano = spunteManualiSessione[id] === true;
+
+                if (haErrori || spuntatoAMano) {
+                    setDaRipetereDomanda(id, true);
+                } else {
+                    setDaRipetereDomanda(id, false);
+                }
+            }
+        });
+
+        await aggiornaPercentualiAvanzamento();
+    }
+
+    async function aggiornaPercentualiAvanzamento() {
+        let arrViste = getVisteArray();
+
+        for (let modId = 0; modId <= 4; modId++) {
+            let data = await caricaCSV(modId);
+            if (data.length > 0) {
+                let affrontati = data.filter(m => (arrViste[m.globalMacroId] || 0) > 0).length;
+                let pct = Math.round((affrontati / data.length) * 100);
+                let badge = document.getElementById(`pct-${modId}`);
+                if (badge) badge.innerText = `${pct}%`;
+            }
+        }
+    }
+
+  async function aggiornaInfoRangeOpzioni() {
+    let ulList = document.getElementById('module-ranges-list');
+    if (!ulList) return;
+    
+    let startNum = 1;
+    let html = '';
+
+    for (let modId = 1; modId <= 4; modId++) {
+        let data = await caricaCSV(modId);
+        if (data.length > 0) {
+            let unitRanges = {};
+
+            data.forEach(macro => {
+                let unitName = macro.moduloText; // es. "Modulo 1 - Unità didattica 1"
+                
+                // Estrae il numero dell'unità (es. da "Unità didattica 1" prende "1")
+                let unitMatch = unitName.match(/unità\s*didattica\s*(\d+)/i);
+                let unitLabel = unitMatch ? `M${modId}.${unitMatch[1]}` : `M${modId}`;
+
+                if (!unitRanges[unitLabel]) {
+                    unitRanges[unitLabel] = { min: macro.globalMacroId, max: macro.globalMacroId };
+                } else {
+                    unitRanges[unitLabel].max = macro.globalMacroId;
+                }
+            });
+
+            html += `<li><strong>Modulo ${modId}:</strong><ul style="margin:2px 0 6px 0; padding-left:15px;">`;
+            for (let u in unitRanges) {
+                html += `<li><strong>${u}:</strong> domande ${unitRanges[u].min} - ${unitRanges[u].max}</li>`;
+            }
+            html += `</ul></li>`;
+
+            startNum = data[data.length - 1].globalMacroId + 1;
+        } else {
+            html += `<li><strong>Modulo ${modId}:</strong> Non disponibile</li>`;
+        }
+    }
+    ulList.innerHTML = html;
+}
+
+    // --- SINCRONIZZAZIONE CODICE ALFANUMERICO & QR CODE ---
+    function generaCodiceAlfanumerico() {
+        let payload = {
+            v: getVisteArray(),
+            r: getDaRipetereArray()
+        };
+
+        try {
+            return btoa(JSON.stringify(payload));
+        } catch(e) {
+            return "";
+        }
+    }
+
+    function copiaCodiceSincronizzazione() {
+        let code = generaCodiceAlfanumerico();
+        if (!code) {
+            alert("Errore nella generazione del codice!");
+            return;
+        }
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(code).then(() => {
+                alert("🔑 Codice copiato negli appunti!");
+                document.getElementById('sync-code-input').value = '';
+            }).catch(() => {
+                prompt("Copia manualmente il tuo codice:", code);
+                document.getElementById('sync-code-input').value = '';
+            });
+        } else {
+            prompt("Copia manualmente il tuo codice:", code);
+            document.getElementById('sync-code-input').value = '';
+        }
+    }
+
+    function generaQRCodeProgressi() {
+        let code = generaCodiceAlfanumerico();
+        if (!code) {
+            alert("Nessun dato da mostrare!");
+            return;
+        }
+
+        let targetUrl = window.location.origin + window.location.pathname + '?state=' + code;
+        let containerBox = document.getElementById('qr-box');
+        let displayEl = document.getElementById('qrcode-display');
+
+        displayEl.innerHTML = ''; 
+
+        if (typeof QRCode !== 'undefined') {
+            new QRCode(displayEl, {
+                text: targetUrl,
+                width: 180,
+                height: 180,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.L
+            });
+            containerBox.style.display = 'flex';
+        } else {
+            let encodedUrl = encodeURIComponent(targetUrl);
+            displayEl.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodedUrl}" alt="QR Code Progressi" style="width:180px; height:180px; display:block;" />`;
+            containerBox.style.display = 'flex';
+        }
+    }
+
+    async function caricaStatoDaCodice() {
+        let input = document.getElementById('sync-code-input').value.trim();
+        if (!input) {
+            alert("Incolla un codice valido prima di cliccare su Importa!");
+            return;
+        }
+
+        try {
+            let jsonStr = atob(input);
+            let payload = JSON.parse(jsonStr);
+
+            if (payload && (payload.v || payload.r)) {
+                setVisteArray(payload.v || []);
+                setDaRipetereArray(payload.r || []);
+
+                await aggiornaPercentualiAvanzamento();
+                await aggiornaStatoModalita();
+                await aggiornaInfoRangeOpzioni();
+                
+                document.getElementById('sync-code-input').value = '';
+                document.getElementById('qr-box').style.display = 'none';
+                alert("✅ Progressi importati con successo!");
+            } else {
+                throw new Error("Formato non valido");
+            }
+        } catch (e) {
+            alert("❌ Codice non valido o danneggiato.");
+        }
+    }
+
+    // PARSER CSV
+    function parseFullCSV(text) {
+        const lines = [];
+        let row = [];
+        let entry = '';
+        let inQuotes = false;
+
+        for (let i = 0; i < text.length; i++) {
+            const char = text[i];
+            const nextChar = text[i + 1];
+
+            if (char === '"') {
+                if (inQuotes && nextChar === '"') { entry += '"'; i++; }
+                else { inQuotes = !inQuotes; }
+            } else if ((char === ',' || char === ';') && !inQuotes) {
+                row.push(entry.trim()); entry = '';
+            } else if ((char === '\r' || char === '\n') && !inQuotes) {
+                if (char === '\r' && nextChar === '\n') i++;
+                row.push(entry.trim());
+                if (row.length > 1 || row[0] !== '') lines.push(row);
+                row = []; entry = '';
+            } else { entry += char; }
+        }
+        if (entry || row.length > 0) { row.push(entry.trim()); lines.push(row); }
+        return lines;
+    }
+
+    function raggruppaInMacro(rows, filePrefix, globalStartMacroId) {
+        let macros = [];
+        if (rows.length > 0 && rows[0][0] && rows[0][0].toLowerCase().includes('modulo')) {
+            rows.shift();
+        }
+
+        let macroCounter = 1;
+        let currentGlobalMacroId = globalStartMacroId;
+
+        for (let i = 0; i < rows.length; i += 6) {
+            let block = rows.slice(i, i + 6);
+            if (block.length >= 6) {
+                let first = block[0];
+                let statements = block.map(r => {
+                    let ansStr = (r[3] || '').toUpperCase().trim();
+                    return {
+                        testo: r[2] || '',
+                        corretta: (ansStr === 'VERO' || ansStr === 'V') ? 'V' : 'F'
+                    };
+                });
+
+                macros.push({
+                    moduloText: first[0] || filePrefix,
+                    uniqueID: `${filePrefix}_macro_${macroCounter++}`,
+                    globalMacroId: currentGlobalMacroId++,
+                    id: (i / 6) + 1,
+                    titolo: first[1] || 'Senza Titolo',
+                    statements: statements
+                });
+            }
+        }
+        return { macros, nextGlobalMacroId: currentGlobalMacroId };
+    }
+
+    async function caricaCSV(moduloNum) {
+        let moduloInt = parseInt(moduloNum);
+        let files = (moduloInt === 0) ? ['M1', 'M2', 'M3', 'M4'] : [`M${moduloInt}`];
+        
+        let globalStartId = 1;
+
+        if (moduloInt > 1) {
+            for (let m = 1; m < moduloInt; m++) {
+                try {
+                    let res = await fetch(`M${m}.csv?v=${Date.now()}`);
+                    if (res.ok) {
+                        let text = await res.text();
+                        let rows = parseFullCSV(text);
+                        if (rows.length > 0 && rows[0][0] && rows[0][0].toLowerCase().includes('modulo')) {
+                            rows.shift();
+                        }
+                        globalStartId += Math.floor(rows.length / 6);
+                    }
+                } catch(e) {}
+            }
+        }
+
+        let allMacros = [];
+        let runningGlobalId = globalStartId;
+
+        for (let filePrefix of files) {
+            try {
+                let res = await fetch(`${filePrefix}.csv?v=${Date.now()}`);
+                if (res.ok) {
+                    let text = await res.text();
+                    let parsedRows = parseFullCSV(text);
+                    let result = raggruppaInMacro(parsedRows, filePrefix, runningGlobalId);
+                    allMacros.push(...result.macros);
+                    runningGlobalId = result.nextGlobalMacroId;
+                }
+            } catch (e) {}
+        }
+        return allMacros;
+    }
+
+    async function switchTab(tabName, event) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        
+        event.target.classList.add('active');
+        document.getElementById(`tab-${tabName}`).classList.add('active');
+
+        if (tabName === 'quiz') aggiornaOpzioniNumQuiz();
+        if (tabName === 'modo') aggiornaStatoModalita();
+        if (tabName === 'materie') aggiornaPercentualiAvanzamento();
+        if (tabName === 'opzioni') aggiornaInfoRangeOpzioni();
+    }
+
+    function selectModulo(id, el) {
+        document.querySelectorAll('#tab-materie .list-item').forEach(i => i.classList.remove('selected'));
+        el.classList.add('selected');
+        config.moduloSelezionato = id;
+        macroDatabase = [];
+    }
+
+    async function aggiornaStatoModalita() {
+        let data = await caricaCSV(config.moduloSelezionato);
+        let daRipetere = data.filter(m => isDaRipetereDomanda(m.globalMacroId)).length;
+        let nonAffrontati = data.filter(m => getVisteDomanda(m.globalMacroId) === 0).length;
+
+        let elRipetere = document.getElementById('lbl-ripetere');
+        let elRipetereCasuale = document.getElementById('lbl-ripetere-casuale');
+        let elNonAff = document.getElementById('lbl-non-affrontati');
+
+        document.getElementById('count-ripetere').innerText = `(${daRipetere})`;
+        document.getElementById('count-ripetere-casuale').innerText = `(${daRipetere})`;
+        document.getElementById('count-non-affrontati').innerText = `(${nonAffrontati})`;
+
+        if (daRipetere === 0) {
+            elRipetere.classList.add('disabled');
+            elRipetere.querySelector('input').disabled = true;
+            elRipetereCasuale.classList.add('disabled');
+            elRipetereCasuale.querySelector('input').disabled = true;
+        } else {
+            elRipetere.classList.remove('disabled');
+            elRipetere.querySelector('input').disabled = false;
+            elRipetereCasuale.classList.remove('disabled');
+            elRipetereCasuale.querySelector('input').disabled = false;
+        }
+
+        if (nonAffrontati === 0) {
+            elNonAff.classList.add('disabled');
+            elNonAff.querySelector('input').disabled = true;
+        } else {
+            elNonAff.classList.remove('disabled');
+            elNonAff.querySelector('input').disabled = false;
+        }
+    }
+
+    async function aggiornaOpzioniNumQuiz() {
+        let container = document.getElementById('quiz-count-list');
+        container.innerHTML = '<div style="padding:15px; color:#666;">Caricamento in corso...</div>';
+
+        let data = await caricaCSV(config.moduloSelezionato);
+        let totDomande = data.length; 
+        container.innerHTML = '';
+
+        if (totDomande === 0) {
+            container.innerHTML = `<div style="padding:15px; color:#c0392b;">Nessuna domanda trovata.</div>`;
+            return;
+        }
+
+        let tagli = [5, 10, 15, 30, 50, 100, 200, 500];
+        
+        let itemTutti = document.createElement('div');
+        itemTutti.className = 'list-item selected';
+        itemTutti.innerHTML = `<strong>TUTTE LE ${totDomande} DOMANDE</strong>`;
+        itemTutti.onclick = () => { selectNumQuiz('TUTTI', itemTutti); };
+        container.appendChild(itemTutti);
+
+        tagli.forEach(t => {
+            if (t <= totDomande) {
+                let item = document.createElement('div');
+                item.className = 'list-item';
+                item.innerHTML = `<strong>Test di ${t} domande</strong>`;
+                item.onclick = () => { selectNumQuiz(t, item); };
+                container.appendChild(item);
+            }
+        });
+
+        config.numQuesiti = 'TUTTI';
+    }
+
+    function selectNumQuiz(num, el) {
+        document.querySelectorAll('#quiz-count-list .list-item').forEach(i => i.classList.remove('selected'));
+        el.classList.add('selected');
+        config.numQuesiti = num;
+    }
+
+    async function avviaTest() {
+        macroDatabase = await caricaCSV(config.moduloSelezionato);
+        if (macroDatabase.length === 0) {
+            alert("Nessuna domanda trovata per il modulo selezionato!");
+            return;
+        }
+
+        config.modalita = document.querySelector('input[name="modo"]:checked').value;
+
+        if (config.modalita === 'ripetere') {
+            sessioneQuiz = macroDatabase.filter(m => isDaRipetereDomanda(m.globalMacroId));
+        } else if (config.modalita === 'ripetere_casuale') {
+            let filtrate = macroDatabase.filter(m => isDaRipetereDomanda(m.globalMacroId));
+            sessioneQuiz = mescolaArray(filtrate);
+        } else if (config.modalita === 'non_affrontati') {
+            sessioneQuiz = macroDatabase.filter(m => getVisteDomanda(m.globalMacroId) === 0);
+        } else if (config.modalita === 'meno_proposti') {
+            sessioneQuiz = [...macroDatabase].sort((a, b) => {
+                let vA = getVisteDomanda(a.globalMacroId);
+                let vB = getVisteDomanda(b.globalMacroId);
+                if (vA === vB) return Math.random() - 0.5;
+                return vA - vB;
+            });
+        } else if (config.modalita === 'piu_visti') {
+            sessioneQuiz = [...macroDatabase].sort((a, b) => {
+                let vA = getVisteDomanda(a.globalMacroId);
+                let vB = getVisteDomanda(b.globalMacroId);
+                if (vA === vB) return Math.random() - 0.5;
+                return vB - vA;
+            });
+        } else if (config.modalita === 'casuale') {
+            sessioneQuiz = mescolaArray(macroDatabase);
+        } else if (config.modalita === 'ripasso') {
+            let startDom = parseInt(document.getElementById('start-question').value) || 1;
+            let foundIdx = macroDatabase.findIndex(m => m.globalMacroId >= startDom);
+            if (foundIdx === -1) foundIdx = 0;
+            sessioneQuiz = macroDatabase.slice(foundIdx);
+        } else {
+            let startDom = parseInt(document.getElementById('start-question').value) || 1;
+            let foundIdx = macroDatabase.findIndex(m => m.globalMacroId >= startDom);
+            if (foundIdx === -1) foundIdx = 0;
+            sessioneQuiz = macroDatabase.slice(foundIdx);
+        }
+
+        if (sessioneQuiz.length === 0) {
+            alert("Nessun quesito disponibile per la modalità selezionata!");
+            return;
+        }
+
+        if (config.numQuesiti !== 'TUTTI') {
+            sessioneQuiz = sessioneQuiz.slice(0, parseInt(config.numQuesiti));
+        }
+
+        indiceCorrente = 0;
+        risposteUtente = {};
+        spunteManualiSessione = {}; 
+        
+        document.getElementById('setup-screen').style.display = 'none';
+        document.getElementById('quiz-screen').style.display = 'flex';
+        
+        avviaTimer();
+        mostraQuesitoCorrente();
+
+        let container = document.getElementById('statements-container');
+        if (container) container.scrollTop = 0;
+    }
+
+    function mostraQuesitoCorrente() {
+        let macro = sessioneQuiz[indiceCorrente];
+        let totDomandeSessione = sessioneQuiz.length;
+        
+        document.getElementById('quiz-progress-text').innerText = `Domanda ${indiceCorrente + 1} di ${totDomandeSessione}`;
+        document.getElementById('quiz-module-text').innerText = macro.moduloText;
+        
+        document.getElementById('macro-id-badge').innerText = `Domanda #${macro.globalMacroId}`;
+        document.getElementById('macro-title-text').innerText = macro.titolo;
+
+        // Gestione Checkbox Fisso 📌
+        let idDom = macro.globalMacroId;
+        let chkRivedere = document.getElementById('chk-rivedere');
+        chkRivedere.checked = spunteManualiSessione[idDom] === true;
+        chkRivedere.onchange = () => toggleDaRivedere(idDom);
+
+        let container = document.getElementById('statements-container');
+        container.innerHTML = '';
+
+        let isRipasso = (config.modalita === 'ripasso');
+
+        macro.statements.forEach((st, sIdx) => {
+            let card = document.createElement('div');
+            card.className = 'statement-card';
+            
+            let key = `${indiceCorrente}_${sIdx}`;
+            let giaRisposto = risposteUtente[key] !== undefined || isRipasso;
+            let scelta = isRipasso ? st.corretta : risposteUtente[key];
+
+            let html = `
+                <div class="statement-text"><strong>${sIdx + 1}.</strong> ${st.testo}</div>
+                <div class="btn-vf-group">
+                    <button class="btn-vf ${giaRisposto && scelta === 'V' ? (st.corretta === 'V' ? 'selected-correct' : 'selected-wrong') : (giaRisposto && st.corretta === 'V' ? 'selected-correct' : '')}" 
+                            ${giaRisposto ? 'disabled' : ''} onclick="inviaRisposta(${sIdx}, 'V')">VERO</button>
+                    <button class="btn-vf ${giaRisposto && scelta === 'F' ? (st.corretta === 'F' ? 'selected-correct' : 'selected-wrong') : (giaRisposto && st.corretta === 'F' ? 'selected-correct' : '')}" 
+                            ${giaRisposto ? 'disabled' : ''} onclick="inviaRisposta(${sIdx}, 'F')">FALSO</button>
+                </div>`;
+
+            card.innerHTML = html;
+            container.appendChild(card);
+        });
+
+        document.getElementById('btn-prev').disabled = (indiceCorrente === 0);
+        
+        let allAnswered = isRipasso || macro.statements.every((_, sIdx) => risposteUtente[`${indiceCorrente}_${sIdx}`] !== undefined);
+        let isLast = (indiceCorrente === sessioneQuiz.length - 1);
+
+        if (isLast) {
+            document.getElementById('btn-next').style.display = 'none';
+            document.getElementById('btn-finish').style.display = 'flex';
+        } else {
+            document.getElementById('btn-next').style.display = 'flex';
+            document.getElementById('btn-next').disabled = !allAnswered;
+            document.getElementById('btn-finish').style.display = 'none';
+        }
+    }
+
+    function toggleDaRivedere(globalId) {
+        let chk = document.getElementById('chk-rivedere');
+        spunteManualiSessione[globalId] = chk.checked;
+    }
+
+    function inviaRisposta(statementIdx, valore) {
+        if (config.modalita === 'ripasso') return;
+
+        let key = `${indiceCorrente}_${statementIdx}`;
+        let giaRispostoPrima = Object.keys(risposteUtente).some(k => k.startsWith(`${indiceCorrente}_`));
+        
+        risposteUtente[key] = valore;
+
+        let macro = sessioneQuiz[indiceCorrente];
+        
+        if (!giaRispostoPrima) {
+            incrementaVisteDomanda(macro.globalMacroId);
+        }
+
+        mostraQuesitoCorrente();
+    }
+
+    function quesitoSuccessivo() {
+        if (indiceCorrente < sessioneQuiz.length - 1) {
+            indiceCorrente++;
+            mostraQuesitoCorrente();
+            document.getElementById('statements-container').scrollTop = 0;
+        }
+    }
+
+    function quesitoPrecedente() {
+        if (indiceCorrente > 0) {
+            indiceCorrente--;
+            mostraQuesitoCorrente();
+            document.getElementById('statements-container').scrollTop = 0;
+        }
+    }
+
+    function confermaInterruzione() {
+        let msg = (config.modalita === 'ripasso') ? "Vuoi uscire dalla modalità ripasso?" : "Sei sicuro di voler terminare il test in anticipo?";
+        if (confirm(msg)) {
+            terminaTest();
+        }
+    }
+
+    function terminaTest() {
+        fermaTimer();
+        salvaStoricoSvolgimento();
+
+        document.getElementById('quiz-screen').style.display = 'none';
+
+        // Se siamo in Modalità Ripasso, torniamo subito al menu iniziale senza mostrare i risultati
+        if (config.modalita === 'ripasso') {
+            document.getElementById('setup-screen').style.display = 'flex';
+            aggiornaStatoModalita();
+            aggiornaPercentualiAvanzamento();
+            aggiornaInfoRangeOpzioni();
+            return;
+        }
+
+        // Per tutte le altre modalità normali, mostra la schermata finale
+        document.getElementById('results-screen').style.display = 'flex';
+
+        let esatte = 0;
+        let errate = 0;
+
+        sessioneQuiz.forEach((macro, mIdx) => {
+            macro.statements.forEach((st, sIdx) => {
+                let ans = risposteUtente[`${mIdx}_${sIdx}`];
+                if (ans) {
+                    if (ans === st.corretta) esatte++;
+                    else errate++;
+                }
+            });
+        });
+
+        document.getElementById('res-time').innerText = formattaTempo(secondiTrascorsi);
+        document.getElementById('res-correct').innerText = esatte;
+        document.getElementById('res-wrong').innerText = errate;
+    }
+
+    function tornaAlMenu() {
+        fermaTimer();
+        document.getElementById('results-screen').style.display = 'none';
+        document.getElementById('setup-screen').style.display = 'flex';
+        aggiornaStatoModalita();
+        aggiornaPercentualiAvanzamento();
+        aggiornaInfoRangeOpzioni();
+    }
+
+    async function resettaTuttiIDati() {
+        if (confirm("Sei sicuro di voler resettare tutti i progressi e gli errori?")) {
+            localStorage.removeItem('quiz_viste_arr');
+            localStorage.removeItem('quiz_da_ripetere_arr');
+
+            await aggiornaPercentualiAvanzamento();
+            alert("Progressi resettati!");
+            location.reload();
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        caricaStoricoDalServer();
+    });
+</script>
+
+</body>
+</html>
