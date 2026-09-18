@@ -140,7 +140,7 @@
 
         <div class="action-bar">
             <button class="btn-start" onclick="avviaTest()">INIZIA TEST</button>
-            <div class="footer-signature">Ivan D. - v1.1</div>
+            <div class="footer-signature">Ivan D. - v1.3</div>
         </div>
     </div>
 
@@ -179,7 +179,7 @@
                 <button class="nav-btn" id="btn-next" onclick="quesitoSuccessivo()">→</button>
                 <button class="btn-finish" id="btn-finish" onclick="terminaTest()" style="display: none;">TERMINA</button>
             </div>
-            <div class="footer-signature">Ivan D. - v1.1</div>
+            <div class="footer-signature">Ivan D. - v1.3</div>
         </div>
     </div>
 
@@ -199,13 +199,13 @@
             <div>Risposte Errate</div>
         </div>
         <button class="btn-start" onclick="tornaAlMenu()" style="margin-top: 20px;">TORNA AL MENU</button>
-        <div class="footer-signature">Ivan D. - v1.1</div>
+        <div class="footer-signature">Ivan D. - v1.3</div>
     </div>
 
 </div>
 
 <script>
-    console.log("%c Simulatore Quiz - v1.1 - Ideato da Ivan D.", "color: #007bff; font-size: 16px; font-weight: bold; background: #e3f2fd; padding: 5px; border-radius: 5px;");
+    console.log("%c Simulatore Quiz - v1.3 - Ideato da Ivan D.", "color: #007bff; font-size: 16px; font-weight: bold; background: #e3f2fd; padding: 5px; border-radius: 5px;");
 
     // Impedisce lo scorrimento elastico fuori dai blocchi consentiti
     document.body.addEventListener('touchmove', function(e) {
@@ -267,7 +267,6 @@
         return `${mStr}:${sStr}`;
     }
 
-    // ALGORITMO MESCOLAMENTO UNIVOCO (Fisher-Yates)
     function mescolaArray(array) {
         let arr = [...array];
         for (let i = arr.length - 1; i > 0; i--) {
@@ -277,14 +276,12 @@
         return arr;
     }
 
-    // REGISTRAZIONE SERVICE WORKER
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('./sw.js').catch(() => {});
         });
     }
 
-    // --- UTILITIES LOCALSTORAGE FORMATO COMPATTO ---
     function getVisteArray() {
         return JSON.parse(localStorage.getItem('quiz_viste_arr') || '[]');
     }
@@ -396,47 +393,42 @@
         }
     }
 
-  async function aggiornaInfoRangeOpzioni() {
-    let ulList = document.getElementById('module-ranges-list');
-    if (!ulList) return;
-    
-    let startNum = 1;
-    let html = '';
+    async function aggiornaInfoRangeOpzioni() {
+        let ulList = document.getElementById('module-ranges-list');
+        if (!ulList) return;
+        
+        let html = '';
 
-    for (let modId = 1; modId <= 4; modId++) {
-        let data = await caricaCSV(modId);
-        if (data.length > 0) {
-            let unitRanges = {};
+        for (let modId = 1; modId <= 4; modId++) {
+            let data = await caricaCSV(modId);
+            if (data.length > 0) {
+                let unitRanges = {};
 
-            data.forEach(macro => {
-                let unitName = macro.moduloText; // es. "Modulo 1 - Unità didattica 1"
-                
-                // Estrae il numero dell'unità (es. da "Unità didattica 1" prende "1")
-                let unitMatch = unitName.match(/unità\s*didattica\s*(\d+)/i);
-                let unitLabel = unitMatch ? `M${modId}.${unitMatch[1]}` : `M${modId}`;
+                data.forEach(macro => {
+                    let unitName = macro.moduloText; 
+                    // Ricerca flessibile di "UD1", "UD 1" o "Unità didattica 1"
+                    let unitMatch = unitName.match(/(?:unità\s*didattica|ud)[\s\-]*(\d+)/i);
+                    let unitLabel = unitMatch ? `M${modId} - UD${unitMatch[1]}` : `M${modId}`;
 
-                if (!unitRanges[unitLabel]) {
-                    unitRanges[unitLabel] = { min: macro.globalMacroId, max: macro.globalMacroId };
-                } else {
-                    unitRanges[unitLabel].max = macro.globalMacroId;
+                    if (!unitRanges[unitLabel]) {
+                        unitRanges[unitLabel] = { min: macro.globalMacroId, max: macro.globalMacroId };
+                    } else {
+                        unitRanges[unitLabel].max = macro.globalMacroId;
+                    }
+                });
+
+                html += `<li><strong>Modulo ${modId}:</strong><ul style="margin:2px 0 6px 0; padding-left:15px;">`;
+                for (let u in unitRanges) {
+                    html += `<li><strong>${u}:</strong> domande ${unitRanges[u].min} - ${unitRanges[u].max}</li>`;
                 }
-            });
-
-            html += `<li><strong>Modulo ${modId}:</strong><ul style="margin:2px 0 6px 0; padding-left:15px;">`;
-            for (let u in unitRanges) {
-                html += `<li><strong>${u}:</strong> domande ${unitRanges[u].min} - ${unitRanges[u].max}</li>`;
+                html += `</ul></li>`;
+            } else {
+                html += `<li><strong>Modulo ${modId}:</strong> Non disponibile</li>`;
             }
-            html += `</ul></li>`;
-
-            startNum = data[data.length - 1].globalMacroId + 1;
-        } else {
-            html += `<li><strong>Modulo ${modId}:</strong> Non disponibile</li>`;
         }
+        ulList.innerHTML = html;
     }
-    ulList.innerHTML = html;
-}
 
-    // --- SINCRONIZZAZIONE CODICE ALFANUMERICO & QR CODE ---
     function generaCodiceAlfanumerico() {
         let payload = {
             v: getVisteArray(),
@@ -558,40 +550,77 @@
         return lines;
     }
 
+    // NUOVA FUNZIONE RAGGRUPPAMENTO DINAMICO
     function raggruppaInMacro(rows, filePrefix, globalStartMacroId) {
         let macros = [];
-        if (rows.length > 0 && rows[0][0] && rows[0][0].toLowerCase().includes('modulo')) {
-            rows.shift();
+        
+        // Rimuovi intestazione dinamicamente se riconosciuta
+        if (rows.length > 0 && rows[0].length > 1) {
+            let primaCella = (rows[0][0] || '').toString().toLowerCase();
+            let secondaCella = (rows[0][1] || '').toString().toLowerCase();
+            if (primaCella.includes('modulo') || primaCella === 'numerod' || secondaCella === 'domanda') {
+                rows.shift();
+            }
         }
 
         let macroCounter = 1;
         let currentGlobalMacroId = globalStartMacroId;
 
-        for (let i = 0; i < rows.length; i += 6) {
-            let block = rows.slice(i, i + 6);
-            if (block.length >= 6) {
-                let first = block[0];
-                let statements = block.map(r => {
-                    let ansStr = (r[3] || '').toUpperCase().trim();
-                    return {
-                        testo: r[2] || '',
-                        corretta: (ansStr === 'VERO' || ansStr === 'V') ? 'V' : 'F'
-                    };
-                });
+        let currentQuestionRows = [];
+        let currentQuestionTitle = null;
 
-                macros.push({
-                    moduloText: first[0] || filePrefix,
-                    uniqueID: `${filePrefix}_macro_${macroCounter++}`,
-                    globalMacroId: currentGlobalMacroId++,
-                    id: (i / 6) + 1,
-                    titolo: first[1] || 'Senza Titolo',
-                    statements: statements
-                });
+        for (let i = 0; i < rows.length; i++) {
+            let row = rows[i];
+            if (row.length < 3) continue; // Salta righe malformate
+
+            // Assumiamo che la domanda sia nella colonna 1 (Indice 1)
+            let qTitle = (row[1] || '').trim();
+
+            if (currentQuestionTitle !== null && qTitle !== currentQuestionTitle && currentQuestionRows.length > 0) {
+                processGroup(currentQuestionRows);
+                currentQuestionRows = [];
             }
+            
+            currentQuestionTitle = qTitle;
+            currentQuestionRows.push(row);
         }
+        
+        // Processa l'ultima domanda
+        if (currentQuestionRows.length > 0) {
+            processGroup(currentQuestionRows);
+        }
+
+        function processGroup(block) {
+            let first = block[0];
+            let statements = block.map(r => {
+                let ansStr = (r[3] || '').toUpperCase().trim();
+                return {
+                    testo: r[2] || '',
+                    corretta: (ansStr === 'VERO' || ansStr === 'V') ? 'V' : 'F'
+                };
+            });
+
+            // Seleziona il nome del modulo validando UD, Modulo o formati M1..
+            let col0 = (first[0] || '').toString().trim();
+            let isNumeric = !isNaN(parseInt(col0)) && isFinite(col0) && col0 !== '';
+            let isValido = !isNumeric && (col0.toLowerCase().includes('modulo') || col0.toLowerCase().includes('ud') || /^m\d+/i.test(col0));
+            
+            let moduloName = isValido ? col0 : `M${filePrefix.replace('M', '')}`;
+
+            macros.push({
+                moduloText: moduloName,
+                uniqueID: `${filePrefix}_macro_${macroCounter++}`,
+                globalMacroId: currentGlobalMacroId++,
+                id: currentGlobalMacroId - 1,
+                titolo: first[1] || 'Senza Titolo',
+                statements: statements
+            });
+        }
+
         return { macros, nextGlobalMacroId: currentGlobalMacroId };
     }
 
+    // CARICAMENTO CSV OTTIMIZZATO PER NUMERO VARIABILE DI DOMANDE
     async function caricaCSV(moduloNum) {
         let moduloInt = parseInt(moduloNum);
         let files = (moduloInt === 0) ? ['M1', 'M2', 'M3', 'M4'] : [`M${moduloInt}`];
@@ -605,10 +634,9 @@
                     if (res.ok) {
                         let text = await res.text();
                         let rows = parseFullCSV(text);
-                        if (rows.length > 0 && rows[0][0] && rows[0][0].toLowerCase().includes('modulo')) {
-                            rows.shift();
-                        }
-                        globalStartId += Math.floor(rows.length / 6);
+                        // Processa i dati per avere l'id corretto di partenza per il file attuale
+                        let result = raggruppaInMacro(rows, `M${m}`, globalStartId);
+                        globalStartId = result.nextGlobalMacroId;
                     }
                 } catch(e) {}
             }
@@ -901,7 +929,6 @@
 
         document.getElementById('quiz-screen').style.display = 'none';
 
-        // Se siamo in Modalità Ripasso, torniamo subito al menu iniziale senza mostrare i risultati
         if (config.modalita === 'ripasso') {
             document.getElementById('setup-screen').style.display = 'flex';
             aggiornaStatoModalita();
@@ -910,7 +937,6 @@
             return;
         }
 
-        // Per tutte le altre modalità normali, mostra la schermata finale
         document.getElementById('results-screen').style.display = 'flex';
 
         let esatte = 0;
