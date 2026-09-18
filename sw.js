@@ -1,4 +1,5 @@
-const CACHE_NAME = 'quiz-app-v1.1';
+// IL NOME DELLA CACHE È STATO CAMBIATO PER ISOLARE QUESTO SITO
+const CACHE_NAME = 'quiz-app-nuovo-v1.0';
 
 const urlsToCache = [
   './',
@@ -17,7 +18,7 @@ const urlsToCache = [
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME).then(cache => {
-            console.log('Cache aperta: salvataggio file in corso...');
+            console.log('Cache aperta (nuovo sito): salvataggio file in corso...');
             return cache.addAll(urlsToCache);
         })
     );

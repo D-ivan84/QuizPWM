@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Simulatore Quiz</title>
+    <title>Simulatore Quiz - Nuovo</title>
 
     <!-- Foglio di Stile Esterno -->
     <link rel="stylesheet" href="./style.css">
@@ -140,7 +140,7 @@
 
         <div class="action-bar">
             <button class="btn-start" onclick="avviaTest()">INIZIA TEST</button>
-            <div class="footer-signature">Ivan D. - v1.3</div>
+            <div class="footer-signature">Ivan D. - v2.0 (Indipendente)</div>
         </div>
     </div>
 
@@ -179,7 +179,7 @@
                 <button class="nav-btn" id="btn-next" onclick="quesitoSuccessivo()">→</button>
                 <button class="btn-finish" id="btn-finish" onclick="terminaTest()" style="display: none;">TERMINA</button>
             </div>
-            <div class="footer-signature">Ivan D. - v1.3</div>
+            <div class="footer-signature">Ivan D. - v2.0 (Indipendente)</div>
         </div>
     </div>
 
@@ -199,15 +199,14 @@
             <div>Risposte Errate</div>
         </div>
         <button class="btn-start" onclick="tornaAlMenu()" style="margin-top: 20px;">TORNA AL MENU</button>
-        <div class="footer-signature">Ivan D. - v1.3</div>
+        <div class="footer-signature">Ivan D. - v2.0 (Indipendente)</div>
     </div>
 
 </div>
 
 <script>
-    console.log("%c Simulatore Quiz - v1.3 - Ideato da Ivan D.", "color: #007bff; font-size: 16px; font-weight: bold; background: #e3f2fd; padding: 5px; border-radius: 5px;");
+    console.log("%c Simulatore Quiz - v2.0 (Indipendente) - Ideato da Ivan D.", "color: #007bff; font-size: 16px; font-weight: bold; background: #e3f2fd; padding: 5px; border-radius: 5px;");
 
-    // Impedisce lo scorrimento elastico fuori dai blocchi consentiti
     document.body.addEventListener('touchmove', function(e) {
         if (!e.target.closest('.tab-content') && !e.target.closest('#statements-container')) {
             e.preventDefault();
@@ -227,7 +226,6 @@
     let risposteUtente = {}; 
     let spunteManualiSessione = {}; 
 
-    // GESTIONE TIMER TEST
     let timerInterval = null;
     let secondiTrascorsi = 0;
 
@@ -282,20 +280,21 @@
         });
     }
 
+    // CHIAVI MEMORIA INDIPENDENTI DAL PRIMO SITO
     function getVisteArray() {
-        return JSON.parse(localStorage.getItem('quiz_viste_arr') || '[]');
+        return JSON.parse(localStorage.getItem('quiz_viste_arr_nuovo') || '[]');
     }
 
     function setVisteArray(arr) {
-        localStorage.setItem('quiz_viste_arr', JSON.stringify(arr));
+        localStorage.setItem('quiz_viste_arr_nuovo', JSON.stringify(arr));
     }
 
     function getDaRipetereArray() {
-        return JSON.parse(localStorage.getItem('quiz_da_ripetere_arr') || '[]');
+        return JSON.parse(localStorage.getItem('quiz_da_ripetere_arr_nuovo') || '[]');
     }
 
     function setDaRipetereArray(arr) {
-        localStorage.setItem('quiz_da_ripetere_arr', JSON.stringify(arr));
+        localStorage.setItem('quiz_da_ripetere_arr_nuovo', JSON.stringify(arr));
     }
 
     function getVisteDomanda(globalId) {
@@ -406,7 +405,6 @@
 
                 data.forEach(macro => {
                     let unitName = macro.moduloText; 
-                    // Ricerca flessibile di "UD1", "UD 1" o "Unità didattica 1"
                     let unitMatch = unitName.match(/(?:unità\s*didattica|ud)[\s\-]*(\d+)/i);
                     let unitLabel = unitMatch ? `M${modId} - UD${unitMatch[1]}` : `M${modId}`;
 
@@ -523,7 +521,6 @@
         }
     }
 
-    // PARSER CSV
     function parseFullCSV(text) {
         const lines = [];
         let row = [];
@@ -550,15 +547,13 @@
         return lines;
     }
 
-    // NUOVA FUNZIONE RAGGRUPPAMENTO DINAMICO
     function raggruppaInMacro(rows, filePrefix, globalStartMacroId) {
         let macros = [];
         
-        // Rimuovi intestazione dinamicamente se riconosciuta
         if (rows.length > 0 && rows[0].length > 1) {
             let primaCella = (rows[0][0] || '').toString().toLowerCase();
             let secondaCella = (rows[0][1] || '').toString().toLowerCase();
-            if (primaCella.includes('modulo') || primaCella === 'numerod' || secondaCella === 'domanda') {
+            if (primaCella.includes('modulo') || primaCella.includes('macro') || primaCella === 'numerod' || secondaCella === 'domanda') {
                 rows.shift();
             }
         }
@@ -571,9 +566,8 @@
 
         for (let i = 0; i < rows.length; i++) {
             let row = rows[i];
-            if (row.length < 3) continue; // Salta righe malformate
+            if (row.length < 3) continue;
 
-            // Assumiamo che la domanda sia nella colonna 1 (Indice 1)
             let qTitle = (row[1] || '').trim();
 
             if (currentQuestionTitle !== null && qTitle !== currentQuestionTitle && currentQuestionRows.length > 0) {
@@ -585,7 +579,6 @@
             currentQuestionRows.push(row);
         }
         
-        // Processa l'ultima domanda
         if (currentQuestionRows.length > 0) {
             processGroup(currentQuestionRows);
         }
@@ -600,7 +593,6 @@
                 };
             });
 
-            // Seleziona il nome del modulo validando UD, Modulo o formati M1..
             let col0 = (first[0] || '').toString().trim();
             let isNumeric = !isNaN(parseInt(col0)) && isFinite(col0) && col0 !== '';
             let isValido = !isNumeric && (col0.toLowerCase().includes('modulo') || col0.toLowerCase().includes('ud') || /^m\d+/i.test(col0));
@@ -620,7 +612,6 @@
         return { macros, nextGlobalMacroId: currentGlobalMacroId };
     }
 
-    // CARICAMENTO CSV OTTIMIZZATO PER NUMERO VARIABILE DI DOMANDE
     async function caricaCSV(moduloNum) {
         let moduloInt = parseInt(moduloNum);
         let files = (moduloInt === 0) ? ['M1', 'M2', 'M3', 'M4'] : [`M${moduloInt}`];
@@ -634,7 +625,6 @@
                     if (res.ok) {
                         let text = await res.text();
                         let rows = parseFullCSV(text);
-                        // Processa i dati per avere l'id corretto di partenza per il file attuale
                         let result = raggruppaInMacro(rows, `M${m}`, globalStartId);
                         globalStartId = result.nextGlobalMacroId;
                     }
@@ -831,7 +821,6 @@
         document.getElementById('macro-id-badge').innerText = `Domanda #${macro.globalMacroId}`;
         document.getElementById('macro-title-text').innerText = macro.titolo;
 
-        // Gestione Checkbox Fisso 📌
         let idDom = macro.globalMacroId;
         let chkRivedere = document.getElementById('chk-rivedere');
         chkRivedere.checked = spunteManualiSessione[idDom] === true;
@@ -968,8 +957,8 @@
 
     async function resettaTuttiIDati() {
         if (confirm("Sei sicuro di voler resettare tutti i progressi e gli errori?")) {
-            localStorage.removeItem('quiz_viste_arr');
-            localStorage.removeItem('quiz_da_ripetere_arr');
+            localStorage.removeItem('quiz_viste_arr_nuovo');
+            localStorage.removeItem('quiz_da_ripetere_arr_nuovo');
 
             await aggiornaPercentualiAvanzamento();
             alert("Progressi resettati!");
