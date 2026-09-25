@@ -1,0 +1,79 @@
+M3-UD2,JSON,E' indipendente dal linguaggio,VERO
+M3-UD2,JSON,E' leggibile sia dalla macchina che dall'uomo,VERO
+M3-UD2,JSON,E' un dialetto XML,FALSO
+M3-UD2,JSON,E' uno standard progettato per lo scambio di dati,VERO
+M3-UD2,JSON notation,E' più leggera di XML.,VERO
+M3-UD2,JSON notation,Permette di formattare strutture dati.,VERO
+M3-UD2,JSON notation,Viene gestito in JavaScript tramite le funzioni JSON.stringify e JSON.parse.,VERO
+M3-UD2,Uno sviluppatore deve decidere come modellare i dati gestiti dalla sua applicazione web. Il suo obiettivo è di modellare i dati in maniera che siano facilmente interpretabili e che riducano il traffico da e verso l'applicazione web.,Lo sviluppatore modellerà i dati in formato JSON.,VERO
+M3-UD2,Uno sviluppatore deve decidere come modellare i dati gestiti dalla sua applicazione web. Il suo obiettivo è di modellare i dati in maniera che siano facilmente interpretabili e che riducano il traffico da e verso l'applicazione web.,Lo sviluppatore modellerà i dati in formato testuale.,FALSO
+M3-UD2,Uno sviluppatore deve decidere come modellare i dati gestiti dalla sua applicazione web. Il suo obiettivo è di modellare i dati in maniera che siano facilmente interpretabili e che riducano il traffico da e verso l'applicazione web.,Lo sviluppatore modellerà i dati in formato XML.,FALSO
+M3-UD2,Uno sviluppatore deve decidere come modellare i dati gestiti dalla sua applicazione web. Il suo obiettivo è di modellare i dati in maniera che siano facilmente interpretabili e che riducano il traffico da e verso l'applicazione web.,Motivare:JSON è estremamente leggero rispetto a XML (riducendo il traffico di rete grazie all'assenza di tag di chiusura ridondanti) ed è al tempo stesso altamente leggibile e strutturato per le applicazioni web moderne.,VERO
+M3-UD2,XML,Applica delle regole sintattiche semplici e rigide.,VERO
+M3-UD2,XML,È stato progettato per descrivere dati.,VERO
+M3-UD2,XML,È un linguaggio di programmazione.,FALSO
+M3-UD2,XML Remote Procedure Call (XML-RPC),È alla base dei Web Service REST.,FALSO
+M3-UD2,XML Remote Procedure Call (XML-RPC),Fornisce un protocollo di richiesta-risposta.,VERO
+M3-UD2,XML Remote Procedure Call (XML-RPC),Supporta tipi complessi come Array e Struct.,VERO
+M3-UD2,XML vs JSON,Il metodo eval di JavaScript fa il parsing di documenti XML,FALSO
+M3-UD2,XML vs JSON,JSON è più verboso di XML.,FALSO
+M3-UD2,XML vs JSON,JSON è usato come base dei protocolli per i servizi web basati su SOAP.,FALSO
+M3-UD2,XML vs JSON,JSON è usato per descrivere dati strutturati che includono array.,VERO
+M3-UD2,XML vs JSON,La sintassi JSON è un sottoinsieme della sintassi JavaScript.,VERO
+M3-UD2,XML vs JSON,XML è usato come base dei protocolli per i servizi web basati su SOAP.,VERO
+M3-UD2,XML vs JSON,XML è usato per descrivere dati strutturati che includono array.,FALSO
+M3-UD2,XML vs JSON,XML è usato per descrivere dati strutturati che non includono array,FALSO
+M3-UD2,XML-RPC,Forniscono tutte le funzionalità per una comunicazione sicura.,FALSO
+M3-UD2,XML-RPC,Forniscono un approccio per lo sviluppo di applicazioni distribuite.,VERO
+M3-UD2,XML-RPC,Non forniscono funzionalità per una comunicazione sicura.,VERO
+M3-UD2,XML-RPC,Sono gli antenati di SOAP e REST per lo sviluppo di applicazioni distribuite.,VERO
+M3-UD2,XML-RPC,Supportano i soli tipi complessi Array e Struct.,VERO
+M3-UD2,XML-RPC,Utilizzano il protocollo HTTP come mezzo di trasporto.,VERO
+M3-UD2,XML-RPC,Utilizzano un protocollo non standard per il trasporto.,FALSO
+M3-UD3,I web service basati su SOAP,Implementano un paradigma client-server.,VERO
+M3-UD3,I web service basati su SOAP,"Sono componenti ""strongly coupled"".",VERO
+M3-UD3,I web service basati su SOAP,Sono indipendenti dalla piattaforma.,VERO
+M3-UD3,Il concetto di statelessness nei servizi web RESTful significa che:,I servizi web utilizzano HTTP per la gestione della sessione di comunicazione,FALSO
+M3-UD3,Il concetto di statelessness nei servizi web RESTful significa che:,Il client inserisce tutto ciò che è necessario a soddisfare la richiesta,VERO
+M3-UD3,Il concetto di statelessness nei servizi web RESTful significa che:,"Il server usa informazioni da richieste precedenti, nella stessa sessione",FALSO
+M3-UD3,Il concetto di statelessness nei servizi web RESTful significa che:,Ogni richiesta HTTP è eseguita in isolamento,VERO
+M3-UD3,Il protocollo SOAP,Definisce il formato generale di un messaggio e come processarlo.,VERO
+M3-UD3,Il protocollo SOAP,È un protocollo basato su JSON.,FALSO
+M3-UD3,Il protocollo SOAP,Si basa sullo scambio di messaggi composti di un'unica sezione body.,FALSO
+M3-UD3,In un RESTful Web Service,La funzione GET può essere eseguita senza influenzare lo stato delle risorse,VERO
+M3-UD3,In un RESTful Web Service,La funzione POST è un'operazione read-write,VERO
+M3-UD3,In un RESTful Web Service,"Le operazioni GET, HEAD, PUT, DELETE sono idempotenti.",VERO
+M3-UD3,In un RESTful Web Service,Le operazioni PUT e POST hanno lo stesso comportamento.,FALSO
+M3-UD3,In un RESTful Web Service,Le risorse vengono accedute attraverso un'interfaccia uniforme basata su HTTP operation.,VERO
+M3-UD3,In un RESTful Web Service,Le risorse vengono identificate attraverso file XML.,FALSO
+M3-UD3,In un RESTful Web Service,Le risorse vengono identificate tramite URI.,VERO
+M3-UD3,In un RESTful Web Service,Ogni servizio può usare sia rappresentazioni JSON che XML.,VERO
+M3-UD3,In un RESTful Web Service,Vengono definite funzioni tramite interfacce uniformi.,FALSO
+M3-UD3,L’architettura REST,Distribuisce servizi con interfacce di accesso ad hoc.,FALSO
+M3-UD3,L’architettura REST,Implementa una moderna architettura web.,VERO
+M3-UD3,L’architettura REST,Si basa su standard per la rappresentazione dei dati come XML e JSON.,VERO
+M3-UD3,L’oggetto XMLHttpRequest,È definito lato client.,VERO
+M3-UD3,L’oggetto XMLHttpRequest,È usato per scambiare dati in background con il server.,VERO
+M3-UD3,L’oggetto XMLHttpRequest,Permette di ricevere dati dopo che la pagina è stata caricata ...,VERO
+M3-UD3,L’oggetto XMLHttpRequest,Permette di scambiare solo dati in formato XML.,FALSO
+M3-UD3,Nell’ambito delle architetture REST,Con il metodo PUT il server decide il nome della risorsa creata,FALSO
+M3-UD3,Nell’ambito delle architetture REST,Il metodo GET permette di ottenere lo stato di una risorsa,VERO
+M3-UD3,Nell’ambito delle architetture REST,Il metodo POST permette di creare risorse subordinate,VERO
+M3-UD3,Representational State Transfer (REST),Si riferisce a una risorsa tramite URL.,VERO
+M3-UD3,Representational State Transfer (REST),Una stessa risorsa può essere rappresentata con formati diversi.,VERO
+M3-UD3,Representational State Transfer (REST),Utilizza il protocollo FTP per le comunicazioni.,FALSO
+M3-UD3,Representational State Transfer (REST),Utilizza un'interfaccia uniforme.,VERO
+M3-UD3,Un RESTful service,È stateless.,VERO
+M3-UD3,Un RESTful service,Può usare rappresentazioni multiple delle risorse.,VERO
+M3-UD3,Un RESTful service,Utilizza l'interfaccia uniforme di HTTP.,VERO
+M3-UD3,Un'applicazione REST è,Distribuisce servizi con interfacce di accesso personalizzato sull'utente, FALSO
+M3-UD3,Un'applicazione REST è,Gestisce sempre i dati tramite database NoSQL, FALSO
+M3-UD3,Un'applicazione REST è,Modella le informazioni come risorse, VERO
+M3-UD3,Un'applicazione REST è,Stateful, FALSO
+M3-UD3,Web Service vs Software-Oriented Architecture (SOA),SOA sono componenti loosely coupled.,VERO
+M3-UD3,Web Service vs Software-Oriented Architecture (SOA),Web service è uno stile architetturale per implementare applicazioni software che usano servizi disponibili in rete.,VERO
+M3-UD3,Web Service vs Software-Oriented Architecture (SOA),Web service sono lo standard principale per realizzare SOA.,VERO
+M3-UD3,WSDL,Definisce l’interfaccia di un servizio Web,VERO
+M3-UD3,WSDL,È un protocollo per lo scambio di messaggi tra computer sulla rete Internet.,FALSO
+M3-UD3,WSDL,Include la specifica di come associare il WSDL con SOAP,VERO
+M3-UD3,WSDL,Specifica l’indirizzo di binding del servizio,VERO

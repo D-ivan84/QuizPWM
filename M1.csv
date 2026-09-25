@@ -1,0 +1,83 @@
+M1-UD1,HTML,É un linguaggio di markup, VERO
+M1-UD1,HTML,È un linguaggio di programmazione.,FALSO
+M1-UD1,HTML,Fornisce un layer semantico per la descrizione degli elementi.,VERO
+M1-UD1,HTML,Ha poche regole sintattiche, VERO
+M1-UD1,HTML,Ha una sintassi più stringente di XHTML.,FALSO
+M1-UD1,HTML,Permette di implementare pagine web scambiate tramite il protocollo HTTP, VERO
+M1-UD1,HTML,Stabilisce il contenuto e la formattazione di un sito web, FALSO
+M1-UD1,HTML vs XHTML,XHTML combina HTML e JSON.,FALSO
+M1-UD1,HTML vs XHTML,XHTML e HTML sono molto diversi tra loro.,FALSO
+M1-UD1,HTML vs XHTML,XHTML ha regole sintattiche più stringenti di HTML.,VERO
+M1-UD1,HTML5,Aggiunge un livello semantico alla pagina web.,VERO
+M1-UD1,HTML5,Mantiene i controlli sintattici stringenti propri di XHTML.,FALSO
+M1-UD1,HTML5,Riduce l'utilizzo degli elementi div nella strutturazione della pagina.,VERO
+M1-UD1,Il semantic markup in HTML5,Associa un significato al contenuto,VERO
+M1-UD1,Il semantic markup in HTML5,Migliora l'usabilità per persone con disabilità.,VERO
+M1-UD1,Il semantic markup in HTML5,Modifica la struttura di una pagina HTML.,FALSO
+M1-UD1,Il semantic markup in HTML5,Rende una pagina web comprensibile sia all’uomo che alla macchina,VERO
+M1-UD1,Il tag <body> di un documento HTML,Contiene il titolo della pagina/scheda.,FALSO
+M1-UD1,Il tag <body> di un documento HTML,Contiene informazioni utilizzate dai motori di ricerca per indicizzare il documento HTML.,FALSO
+M1-UD1,Il tag <body> di un documento HTML,Definisce il contenuto del documento HTML.,VERO
+M1-UD1,Il tag <body> di un documento HTML,È il tag contenitore di tutto il documento HTML.,FALSO
+M1-UD1,Il tag <body> di un documento HTML,Può contenere brani di codice CSS.,VERO
+M1-UD1,Il tag <head> di un documento HTML,Contiene informazioni utilizzate dai motori di ricerca per indicizzare il documento HTML,VERO
+M1-UD1,Il tag <head> di un documento HTML,Contiene informazioni/metadati relativi al documento HTML,VERO
+M1-UD1,Il tag <head> di un documento HTML,Definisce il contenuto del documento HTML,FALSO
+M1-UD1,La funzionalità drag&drop,È parte di HTML5,VERO
+M1-UD1,La funzionalità drag&drop,Era disponibile prima di HTML5,FALSO
+M1-UD1,La funzionalità drag&drop,Permette di spostare qualsiasi elemento in un'altra posizione,FALSO
+M1-UD1,La funzionalità drag&drop,Permette di trascinare solo elementi testuali,FALSO
+M1-UD1,La funzionalità drag&drop,Rende un elemento trascinabile tramite l'attributo 'draggable=true',VERO
+M1-UD1,La funzionalità drag&drop,Utilizza l'attributo draggable che con valore true rende un elemento trascinabile,VERO
+M1-UD1,Un browser,È un programma per lo sviluppo di web service,FALSO
+M1-UD1,Un browser,Interpreta pagine HTML,VERO
+M1-UD1,Un browser,Permette di interagire con applicazioni web e cloud,VERO
+M1-UD1,XHTML,Combina HTML con XML.,VERO
+M1-UD1,XHTML,È più stringente di HTML.,VERO
+M1-UD1,XHTML,Ha regole sintattiche meno rigide di HTML.,FALSO
+M1-UD1,XHTML,Viene introdotto per ridurre il numero di pagine web con codice HTML errato.,VERO
+M1-UD2,CSS box model,Il padding specifica uno spazio vuoto esterno al bordo della box,FALSO
+M1-UD2,CSS box model,Margin e padding sono trasparenti,VERO
+M1-UD2,CSS box model,Permette di definire formati diversi per i quattro lati della box.,VERO
+M1-UD2,CSS box model,"Permette di definire stile, spessore e colore del border.",VERO
+M1-UD2,CSS box model,Racchiude i soli elementi di una form in un box,FALSO
+M1-UD2,CSS box model,Racchiude tutti gli elementi HTML in un box.,VERO
+M1-UD2,CSS box model,"Specifica margin, border, padding, content",VERO
+M1-UD2,CSS box model,"Specifica unicamente margin, border, padding.",FALSO
+M1-UD2,I fogli di stile CSS,"Definiscono delle regole con la sintassi 'selettore [proprietà: valore, ...]'.",FALSO
+M1-UD2,I fogli di stile CSS,"Definiscono delle regole con la sintassi 'selettore {proprietà: valore, ...}'.",VERO
+M1-UD2,I fogli di stile CSS,Definiscono lo stile di visualizzazione/formattazione.,VERO
+M1-UD2,I fogli di stile CSS,Richiedono versioni HTML precedenti a HTML5.,FALSO
+M1-UD2,I fogli di stile CSS,Utilizzano il selettore id per identificare lo stile di un singolo elemento all'interno della pagina HTML.,VERO
+M1-UD2,Il selettore class di CSS,È associato a un tag HTML tramite l'attributo class,VERO
+M1-UD2,Il selettore class di CSS,È definito in un file css tramite la sintassi '.nomeselettore',VERO
+M1-UD2,Il selettore class di CSS,Mappa a uno specifico tag,FALSO
+M1-UD2,Il selettore id di CSS,È definito in un file CSS tramite la sintassi '#nomeselettore'.,VERO
+M1-UD2,Il selettore id di CSS,Identifica lo stile di un singolo elemento all'interno della pagina HTML.,VERO
+M1-UD2,Il selettore id di CSS,Permette di scegliere il nome del selettore da un vocabolario fisso di parole.,FALSO
+M1-UD2,Il selettore id di CSS,Può essere combinato con selettori class.,VERO
+M1-UD2,La direttiva @keyframes di CSS3,È esprimibile in maniera percentuale,VERO
+M1-UD2,La direttiva @keyframes di CSS3,Permette di specificare delle animazioni,VERO
+M1-UD2,La direttiva @keyframes di CSS3,Specifica colore e gradienti del testo di una pagina HTML,FALSO
+M1-UD2,La regola @font-face,Definisce il set di caratteri da includere,FALSO
+M1-UD2,La regola @font-face,È disponibile in CSS3,VERO
+M1-UD2,La regola @font-face,Permette di includere solo alcuni tipi di carattere,FALSO
+M1-UD2,La regola @font-face,Permette di selezionare un solo set di caratteri per volta,FALSO
+M1-UD2,La valutazione a cascata delle regole CSS prevede che,Il primo ordinamento sia fatto in base a peso e origine.,VERO
+M1-UD2,La valutazione a cascata delle regole CSS prevede che,"Per dichiarazioni 'importanti', gli stylesheet dell'autore della pagina sovrascrivano quelli dell'utente.",FALSO
+M1-UD2,La valutazione a cascata delle regole CSS prevede che,Selettori più specifici sovrascrivano selettori più generali.,VERO
+M1-UD2,Le animazioni CSS3,Non permettono di definire la durata dell'animazione.,FALSO
+M1-UD2,Le animazioni CSS3,Permettono di definire un'animazione che viene ripetuta nel tempo.,VERO
+M1-UD2,Le animazioni CSS3,Permettono di modificare la posizione di un elemento.,VERO
+M1-UD2,Le animazioni CSS3,Suddividono l'animazione lungo l'asse temporale.,VERO
+M1-UD2,Quali delle seguenti istruzioni CSS3 sono corrette,div {color background: black},FALSO
+M1-UD2,Quali delle seguenti istruzioni CSS3 sono corrette,"h1 {font: 20px Verdana , Arial}",VERO
+M1-UD2,Quali delle seguenti istruzioni CSS3 sono corrette,p {margin: 10px 5px 10px 5px;},VERO
+M1-UD2,Quando diverse regole CSS si applicano a uno stesso elemento,Il primo ordinamento è fatto in base al peso e all'origine della specifica regola CSS.,VERO
+M1-UD2,Quando diverse regole CSS si applicano a uno stesso elemento,Priorità massima viene data alle regole definite dall'autore della pagina.,FALSO
+M1-UD2,Quando diverse regole CSS si applicano a uno stesso elemento,Si considera sempre la regola più specifica.,FALSO
+M1-UD2,Quando diverse regole CSS si applicano a uno stesso elemento,Viene applicata una valutazione a cascata per la risoluzione dei conflitti.,VERO
+M1-UD2,Un selettore di una regola CSS,Può avere un nome diverso da quello di un tag HTML.,VERO
+M1-UD2,Un selettore di una regola CSS,Può essere defi nito nell'header della pagina HTML,FALSO
+M1-UD2,Un selettore di una regola CSS,Può essere qualunque tag HTML.,VERO
+M1-UD2,Un selettore di una regola CSS,Può riferirsi a una classe di tag.,VERO

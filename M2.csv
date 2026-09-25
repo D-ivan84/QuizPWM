@@ -1,0 +1,38 @@
+M2-UD1,Accesso a pagine Web tramite nodi di JavaScript,"È possibile aggiungere, modificare e rimuovere qualsiasi nodo.",VERO
+M2-UD1,Accesso a pagine Web tramite nodi di JavaScript,È possibile manipolare la pagina tramite funzioni quali getElementById.,VERO
+M2-UD1,Accesso a pagine Web tramite nodi di JavaScript,"Tutti gli elementi di una pagina, inclusi testo e attributi, sono modellati come nodi.",VERO
+M2-UD1,Accesso a pagine Web tramite nodi di JavaScript,Tutti i nodi eccetto la root hanno un solo padre.,VERO
+M2-UD1,HTML DOM,Definisce gli elementi HTML come oggetti.,VERO
+M2-UD1,HTML DOM,È un modo diverso di riferirsi a XHTML.,FALSO
+M2-UD1,HTML DOM,"È uno standard che definisce come ottenere, cambiare, aggiungere o modificare elementi HTML",VERO
+M2-UD1,HTML DOM,È uno standard che definisce la struttura di una pagina HTML.,VERO
+M2-UD1,HTML DOM,È usato da JavaScript per modificare gli elementi di una pagina HTML.,VERO
+M2-UD1,HTML DOM,Ogni oggetto HTML DOM è composto solo di proprietà,FALSO
+M2-UD1,HTML DOM,Rappresenta una pagina HTML come un albero,VERO
+M2-UD1,HTML DOM,Rappresenta una pagina HTML come un grafo ordinato aciclico.,VERO
+M2-UD1,HTML DOM,Rappresenta una pagina web come un grafo.,VERO
+M2-UD1,HTML DOM,Viene usato per il parsing di documento XML.,FALSO
+M2-UD1,In JavaScript,È possibile definire variabili con due scope: locale e globale.,VERO
+M2-UD1,In JavaScript,L'accesso e la modifica di oggetti è permesso tramite proprietà e funzioni degli oggetti.,VERO
+M2-UD1,In JavaScript,Le funzioni vengono chiamate fornendo la lista dei parametri attuali.,VERO
+M2-UD1,In JavaScript,Non è possibile definire procedure.,VERO
+M2-UD1,JavaScript,È un linguaggio fortemente tipato,FALSO
+M2-UD1,JavaScript,Non permette di assegnare a una stessa variabile due valori consecutivi di tipo diverso,FALSO
+M2-UD1,JavaScript,Permette a una stessa variabile di avere due valori consecutivi di tipo diverso.,VERO
+M2-UD1,JavaScript,Permette di definire funzioni richiamabili dal codice HTML.,VERO
+M2-UD1,JavaScript,Richiede che ogni istruzione termini con il punto e virgola ;,FALSO
+M2-UD1,JavaScript,Supporta variabili con due scope: locale e globale.,VERO
+M2-UD1,JavaScript permette accesso e modifica di oggetti tramite,Eventi scatenati da azioni degli utenti.,FALSO
+M2-UD1,JavaScript permette accesso e modifica di oggetti tramite,Formule booleane,FALSO
+M2-UD1,JavaScript permette accesso e modifica di oggetti tramite,Funzioni HTML.,FALSO
+M2-UD1,JavaScript permette accesso e modifica di oggetti tramite,Oggetti basati su proprietà e funzioni.,VERO
+M2-UD1,Le variabili JavaScript,Hanno il solo scope locale.,FALSO
+M2-UD1,Le variabili JavaScript,Hanno un tipo di dato dinamico.,VERO
+M2-UD1,Le variabili JavaScript,Sono loosely typed.,VERO
+M2-UD1,Nella virtualizzazione nativa,L’hypervisor è direttamente installato sull’hardware,VERO
+M2-UD1,Nella virtualizzazione nativa,L’hypervisor è ospitato da un sistema operativo host,FALSO
+M2-UD1,Nella virtualizzazione nativa,Si ottengono prestazioni migliori,VERO
+M2-UD1,Nella virtualizzazione nativa,Si utilizza un unico sistema operativo,FALSO
+M2-UD3,"In Javascript, le funzioni",Definiscono sia funzioni che procedure,FALSO
+M2-UD3,"In Javascript, le funzioni",Sono definite tramite la keyword function,VERO
+M2-UD3,"In Javascript, le funzioni",Vengono chiamate fornendo la lista dei parametri attuali,VERO
