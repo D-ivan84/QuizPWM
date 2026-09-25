@@ -1,5 +1,5 @@
 // IL NOME DELLA CACHE È STATO CAMBIATO PER ISOLARE QUESTO SITO
-const CACHE_NAME = 'quiz-app-nuovo-v1.0';
+const CACHE_NAME = 'quiz-app-nuovo-v2.0';
 
 const urlsToCache = [
   './',
