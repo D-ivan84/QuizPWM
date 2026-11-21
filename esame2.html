@@ -425,6 +425,24 @@ Risposta: Il numero di collisioni primarie è identico in entrambi i casi, poich
 • Vincolo: h₂(k) deve essere coprimo con la dimensione m (es. m primo e h₂(k) = 1 + (k mod (m-1))) per garantire l'ispezione di tutte le m celle.</p>
         </section>
 
-        <section>
-            <h3>D5.4: Descrivere la struttura dati MFSET (Merge-Find Set per insiemi disg
-          
+             <section>
+            <h3>D5.4: Descrivere la struttura dati MFSET (Merge-Find Set per insiemi disgiunti) e le operazioni CREAMFSET, TROVA e FONDI. Discutere le ottimizzazioni di unione per rango e compressione dei cammini.</h3>
+            <p>La struttura dati MFSET (Union-Find) gestisce una partizione di un insieme finito S in una collezione di sottoinsiemi disgiunti (detti componenti), ciascuno identificato univocamente da un elemento rappresentante.
+
+Operazioni fondamentali:
+• CREAMFSET(S) [Make-Set]: inizializza la struttura creando n insiemi disgiunti singoletti, ciascuno contenente un solo elemento (O(n)).
+• TROVA(x) [Find-Set]: restituisce l'identificatore del componente a cui appartiene x (la radice dell'albero che contiene x).
+• FONDI(A, B) [Union]: unisce i due componenti disgiunti A e B in un unico insieme, riducendo di 1 il numero totale di componenti.
+
+Rappresentazione ad Alberi con Puntatori ai Padri: ciascun insieme è un albero i cui nodi puntano al proprio genitore; la radice punta a se stessa ed è il rappresentante dell'insieme.
+
+Le Due Tecniche Euristiche di Ottimizzazione:
+1. Unione per Rango (Union by Rank): durante l'operazione FONDI(x, y), si collega sempre la radice dell'albero con rango (stima dell'altezza) minore sotto la radice dell'albero con rango maggiore. Il rango aumenta solo se i due alberi hanno lo stesso rango iniziale. Garantisce che l'altezza massima di un albero sia al più O(log n).
+2. Compressione dei Cammini (Path Compression): durante l'esecuzione di TROVA(x), risalendo il cammino dal nodo x fino alla radice, tutti i nodi attraversati vengono ricollegati direttamente alla radice.
+
+Complessità risultante: Applicando congiuntamente le due euristiche, qualsiasi sequenza di m operazioni su n elementi ha una complessità temporale ammortizzata pari a O(m · α(n)), dove α(n) è l'inversa della funzione di Ackermann (funzione a crescita lentissima, per cui α(n) ≤ 4 per qualsiasi valore pratico di n: complessità praticamente lineare O(m)).</p>
+        </section>
+    </article>
+</main>
+</body>
+</html>
