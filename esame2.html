@@ -235,7 +235,7 @@ Variazione temporale del costo: l'altezza h dipende dall'ordine con cui le chiav
         </section>
 
         <section>
-           <h3>D3.3: Disegnare l'albero binario di ricerca ottenuto inserendo le chiavi 1, 2, 3, 4, 5, 6, 7 nell'ordine dato. Qual è il problema? Come si risolve modificando l'ordine di inserimento?</h3>
+            <h3>D3.3: Disegnare l'albero binario di ricerca ottenuto inserendo le chiavi 1, 2, 3, 4, 5, 6, 7 nell'ordine dato. Qual è il problema? Come si risolve modificando l'ordine di inserimento?</h3>
             <p>• Albero risultante: poiché ogni chiave è maggiore della precedente, ogni nodo verrà inserito come figlio destro del precedente. L'albero ha solo rami destri: 1 -&gt; (dx: 2) -&gt; (dx: 3) -&gt; (dx: 4) -&gt; (dx: 5) -&gt; (dx: 6) -&gt; (dx: 7).
 • Il problema: l'albero è completamente degenere (isomorfo a una lista concatenata) di altezza h = 6. Le operazioni di ricerca, inserimento e cancellazione perdono l'efficienza logaritmica e degradano a complessità lineare O(n).
 • Risoluzione: si modifica l'ordine di inserimento inserendo ricorsivamente la mediana dell'insieme ordinato come radice del sottoalbero corrente. Inserendo la sequenza:
@@ -425,7 +425,7 @@ Risposta: Il numero di collisioni primarie è identico in entrambi i casi, poich
 • Vincolo: h₂(k) deve essere coprimo con la dimensione m (es. m primo e h₂(k) = 1 + (k mod (m-1))) per garantire l'ispezione di tutte le m celle.</p>
         </section>
 
-             <section>
+        <section>
             <h3>D5.4: Descrivere la struttura dati MFSET (Merge-Find Set per insiemi disgiunti) e le operazioni CREAMFSET, TROVA e FONDI. Discutere le ottimizzazioni di unione per rango e compressione dei cammini.</h3>
             <p>La struttura dati MFSET (Union-Find) gestisce una partizione di un insieme finito S in una collezione di sottoinsiemi disgiunti (detti componenti), ciascuno identificato univocamente da un elemento rappresentante.
 
