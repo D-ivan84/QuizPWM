@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algoritmi e Strutture Dati - Compendio Teoria Moduli 1-5</title>
+    <style>
+        body {
+            font-family: Georgia, "Times New Roman", serif;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1.5rem 1.2rem 4rem;
+            color: #111827;
+            background: #ffffff;
+        }
+        header {
+            border-bottom: 2px solid #1e3a8a;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.4rem;
+        }
+        h2 {
+            font-size: 1.25rem;
+            color: #1e3a8a;
+            margin-top: 2.5rem;
+            padding-bottom: 0.3rem;
+            border-bottom: 1px solid #cbd5e1;
+        }
+        h3 {
+            font-size: 1.05rem;
+            margin-top: 1.6rem;
+            margin-bottom: 0.5rem;
+            color: #0f172a;
+        }
+        p {
+            margin-bottom: 0.8rem;
+            white-space: pre-line;
+        }
+        section {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <article>
+        <header>
+            <h1>ALGORITMI E STRUTTURE DATI — Compendio Ufficiale delle Domande di Teoria d'Esame Moduli 1–5</h1>
+            <p>Guida di Memorizzazione e Risposte Modello per la Prima Prova in Itinere e Appelli Generali (Docente: S. De Capitani di Vimercati)</p>
+        </header>
+
+        <h2>MODULO 1 - COMPLESSITÀ COMPUTAZIONALE ASINTOTICA E FONDAMENTI</h2>
+
+        <section>
+            <h3>D1.1: Cosa si intende per complessità computazionale asintotica? Definire il tempo di calcolo T(n) e definire formalmente le notazioni O, Ω e Θ fornendo un esempio per ciascuna.</h3>
+            <p>Il tempo di calcolo T(n) è un'unità di misura astratta che quantifica il costo complessivo delle operazioni elementari eseguite da un algoritmo in funzione della dimensione dell'input n, in modo indipendente dall'architettura hardware e dal linguaggio di programmazione. La complessità asintotica ne studia il tasso di crescita al tendere di n all'infinito.
+
+1. Notazione O (Delimitazione Superiore Asintotica):
+O(g(n)) = { f(n) : ∃ c > 0, n₀ > 0 tale che 0 ≤ f(n) ≤ c · g(n) ∀ n ≥ n₀ }.
+Descrive un limite superiore al tasso di crescita (il caso peggiore cresce al più come g(n)).
+Esempio: 3n² + 5n + 2 = O(n²), poiché per c = 4 e n₀ = 7 si ha 3n² + 5n + 2 ≤ 4n².
+
+2. Notazione Ω (Delimitazione Inferiore Asintotica):
+Ω(g(n)) = { f(n) : ∃ c > 0, n₀ > 0 tale che 0 ≤ c · g(n) ≤ f(n) ∀ n ≥ n₀ }.
+Descrive un limite inferiore al tasso di crescita (il tempo è almeno pari a una frazione di g(n)).
+Esempio: 5n² - 2n = Ω(n²), poiché per c = 4 e n₀ = 2 si ha 5n² - 2n ≥ 4n².
+
+3. Notazione Θ (Delimitazione Asintotica Stretta):
+Θ(g(n)) = { f(n) : ∃ c₁, c₂ > 0, n₀ > 0 tale che 0 ≤ c₁ · g(n) ≤ f(n) ≤ c₂ · g(n), ∀ n ≥ n₀ }.
+Vale se e solo se f(n) = O(g(n)) e contemporaneamente f(n) = Ω(g(n)).
+Esempio: 2n² + 3n = Θ(n²), poiché 2n² ≤ 2n² + 3n ≤ 3n² per n ≥ 3 con c₁ = 2, c₂ = 3.</p>
+        </section>
+
+        <section>
+            <h3>D1.2: Spiegare cosa significa g(n) = O(f(n)). Perché non ha senso affermare che 'il tempo di esecuzione dell'algoritmo A è almeno O(n²)'?</h3>
+            <p>La scrittura g(n) = O(f(n)) significa che la funzione g(n) appartiene all'insieme delle funzioni limitate superiormente da f(n) a meno di una costante moltiplicativa per valori di n sufficientemente grandi (ossia g(n) non cresce più rapidamente di f(n)).
+
+L'affermazione «il tempo di esecuzione è almeno O(n²)» è una contraddizione logica formale: la locuzione «almeno» indica una delimitazione inferiore (un limite dal basso), mentre la notazione O-grande stabilisce per definizione una delimitazione superiore (un limite dall'alto). Per esprimere un limite inferiore si deve usare la notazione Ω(n²).</p>
+        </section>
+
+        <section>
+            <h3>D1.3: Ci sono differenze tra 'complessità di un problema' e 'complessità di un algoritmo che risolve lo stesso problema'? Giustificare la risposta.</h3>
+            <p>Sì, esiste una differenza teorica fondamentale:
+• Complessità di un algoritmo: rappresenta la quantità di risorse (tempo/spazio) consumate da un singolo specifico algoritmo. Costituisce una delimitazione superiore (upper bound, O) alla difficoltà del problema, dimostrando che il problema può essere risolto in al più quel tempo.
+• Complessità di un problema: rappresenta la quantità intrinseca minima di risorse necessarie per risolvere il problema con un qualsiasi algoritmo presente o futuro. Si esprime tipicamente come una delimitazione inferiore (lower bound, Ω), spesso derivata dalla dimensione minima dell'input che deve essere letto.</p>
+        </section>
+
+        <section>
+            <h3>D1.4: Nell'ambito della complessità computazionale, cosa si intende per 'algoritmo ottimo'? Fornire un esempio.</h3>
+            <p>Un algoritmo per la risoluzione di un problema si dice ottimo se la sua complessità computazionale (delimitazione superiore O) coincide asintoticamente con la complessità intrinseca minima del problema stesso (delimitazione inferiore Ω).
+In termini formali, se un problema ha limite inferiore Ω(f(n)) e l'algoritmo ha costo O(f(n)), allora l'algoritmo ha complessità Θ(f(n)) ed è ottimo.
+
+Esempio canonico: Ricerca del massimo in un array disordinato di n elementi. Il problema richiede necessariamente di esaminare ciascuno degli n elementi almeno una volta (quindi complessità Ω(n)). L'algoritmo di scansione sequenziale lineare confronta n-1 elementi impiegando tempo O(n). Poiché O(n) = Ω(n) = Θ(n), l'algoritmo è ottimo.</p>
+        </section>
+
+        <section>
+            <h3>D1.5: Cosa si intende per 'algoritmo superpolinomiale'?</h3>
+            <p>Un algoritmo si dice a tempo superpolinomiale se il suo tempo di esecuzione T(n) non è limitato superiormente da alcun polinomio in n. In altri termini, per qualsiasi esponente costante k > 0, non è possibile limitare T(n) = O(nᵏ).
+Rientrano in questa classe gli algoritmi a complessità esponenziale (es. Θ(2ⁿ)) e fattoriale (es. Θ(n!)). Tali algoritmi diventano computazionalmente intrattabili anche per valori modesti di n.</p>
+        </section>
+
+        <section>
+            <h3>D1.6: In che cosa consiste la dimostrazione per induzione matematica?</h3>
+            <p>La dimostrazione per induzione è una tecnica matematica rigorosa utilizzata per provare che una data proprietà P(n) è vera per tutti i numeri interi n ≥ n₀. Si articola in tre passaggi obbligati:
+1. Base dell'induzione (Passo Base): si dimostra che la proprietà è vera per il valore iniziale n = n₀ (tipicamente n₀ = 0 o n₀ = 1).
+2. Ipotesi induttiva: si assume che la proprietà P(n) sia vera per un generico intero n ≥ n₀.
+3. Passo induttivo: sfruttando l'ipotesi induttiva, si dimostra formalmente che la proprietà è vera anche per il successore n+1 (ossia P(n) ⇒ P(n+1)).
+Conclusi con successo i passaggi, il principio di induzione garantisce che P(n) è vera per ogni n ≥ n₀.</p>
+        </section>
+
+        <section>
+            <h3>D1.7: Dato il tempo di calcolo T(n) di un algoritmo, in che cosa consiste il metodo delle sostituzioni successive?</h3>
+            <p>Il metodo delle sostituzioni successive (o per srotolamento) è una tecnica analitica per risolvere equazioni di ricorrenza. Consiste nell'espandere iterativamente la relazione ricorsiva sostituendo l'espressione di T(·) al passo precedente, fino a individuare un pattern generale dipendente dal numero di iterazioni k.
+Una volta espressa T(n) in funzione di k, si determina il valore di k per cui si raggiunge la condizione di arresto/base (es. n/2ᵏ = 1 ⇒ k = log₂ n) e si sostituisce tale valore nella formula ottenendo la soluzione in forma chiusa.</p>
+        </section>
+
+        <section>
+            <h3>D1.8: Per la generazione dei numeri di Fibonacci sono stati analizzati due algoritmi, uno iterativo e uno ricorsivo. Quale risulta migliore per complessità computazionale? Motivare la risposta.</h3>
+            <p>L'algoritmo iterativo è nettamente superiore e preferibile:
+• Algoritmo Ricorsivo: genera un albero delle chiamate con massiccia ridondanza (risolve ripetutamente gli stessi sottoproblemi). La relazione di ricorrenza T(n) = T(n-1) + T(n-2) + O(1) ha soluzione esponenziale Θ(Φⁿ) (dove Φ ≈ 1.618 è la sezione aurea), rendendolo intrattabile già per n ≈ 45.
+• Algoritmo Iterativo: calcola ciascun numero di Fibonacci memorizzando solo i due valori precedenti mediante un semplice ciclo for da 2 a n. Esegue esattamente n-1 addizioni elementari, con complessità temporale lineare Θ(n) e spazio ausiliario O(1).</p>
+        </section>
+
+        <h2>MODULO 2 - STRUTTURE DATI LINEARI (LISTE, PILE, CODE)</h2>
+
+        <section>
+            <h3>D2.1: Descrivere il significato dei termini 'dato' e 'tipo di dato astratto' (ADT) mostrando un esempio per ciascuno. Cosa si intende per specifica sintattica e specifica semantica?</h3>
+            <p>• Dato: è un valore elementare grezzo o un'entità atomica memorizzabile che appartiene a un insieme prefissato privo di operazioni associate (es. il numero intero 42, il carattere 'A').
+• Tipo di Dato Astratto (ADT): è un modello matematico composto da una collezione di dati insieme a un insieme ben definito di operazioni consentite per manipolarli, astraendo completamente dai dettagli di implementazione fisica in memoria (es. ADT Pila, ADT Coda, ADT Insieme).
+• Specifica Sintattica: definisce il formalismo delle operazioni, indicando il nome, i tipi dei dati in ingresso e il tipo del risultato prodotto.
+  Esempio (Pila): inspila: (tipoelem, pila) → pila; fuoripila: (pila) → pila; pilavuota: (pila) → booleano.
+• Specifica Semantica: definisce il significato comportamentale e gli effetti delle operazioni attraverso pre-condizioni (stati in cui l'operazione è valida) e post-condizioni (proprietà soddisfatte dallo stato risultante).
+  Esempio (Pila): leggipila(inspila(x, P)) = x; fuoripila(inspila(x, P)) = P (politica LIFO).</p>
+        </section>
+
+        <section>
+            <h3>D2.2: Descrivere la struttura dati astratta Pila, incluse le operazioni che la caratterizzano. Che differenza c'è tra l'operazione leggipila (top) e fuoripila (pop)?</h3>
+            <p>La Pila (Stack) è una struttura dati lineare dinamica in cui gli accessi, gli inserimenti e le rimozioni avengono esclusivamente a un'estremità detta testa (o cima), seguendo rigorosamente la disciplina LIFO (Last-In, First-Out): l'ultimo elemento inserito è il primo a essere estratto.
+
+Operazioni fondamentali:
+• creapila(): inizializza una nuova pila vuota.
+• inspila(x, P) [push]: inserisce l'elemento x in cima alla pila.
+• fuoripila(P) [pop]: rimuove l'elemento presente in cima alla pila, restituendo la pila modificata.
+• leggipila(P) [top]: restituisce il valore memorizzato in cima alla pila senza alterarla.
+• pilavuota(P): predicato booleano che verifica se la pila non contiene elementi.
+
+Differenza fondamentale: leggipila è una funzione di sola lettura con complessità O(1) che non modifica lo stato della pila, mentre fuoripila è un'operazione con effetto collaterale (mutazione di stato) che rimuove fisicamente l'elemento al top, accorciando la pila di un elemento.</p>
+        </section>
+
+        <section>
+            <h3>D2.3: Discutere i vantaggi e svantaggi nell'implementazione della Pila usando, rispettivamente, un array statico e una lista concatenata.</h3>
+            <p>Entrambe le implementazioni garantiscono complessità temporale O(1) per tutte le operazioni elementari, ma differiscono profondamente nella gestione della memoria:
+
+Implementazione con Array Statico:
+• Vantaggi: implementazione semplice e immediata; nessun overhead di memoria dovuto a puntatori ausiliari; eccellente località dei riferimenti in cache.
+• Svantaggi: dimensione massima prefissata a tempo di compilazione; rischio di stack overflow se la dimensione è sottodimensionata; grave spreco di memoria (underutilization) se la dimensione massima stimata è sovrabbondante.
+
+Implementazione con Lista Concatenata:
+• Vantaggi: dimensione dinamica e illimitata (limitata solo dalla memoria fisica complessiva della macchina); nessun overflow prefissato.
+• Svantaggi: ogni elemento richiede memoria aggiuntiva per memorizzare il puntatore al nodo successivo; allocazione/deallocazione dinamica tramite heap (leggero overhead temporale costante per malloc/free); perdita di località in cache.</p>
+        </section>
+
+        <section>
+            <h3>D2.4: Descrivere la struttura dati Coda e le operazioni che la caratterizzano. Come si realizza tramite array circolare e perché si usa la gestione circolare?</h3>
+            <p>La Coda (Queue) è una struttura lineare in cui gli elementi vengono inseriti da un'estremità (coda/fondo) ed estratti dall'estremità opposta (testa/fronte), seguendo rigorosamente la disciplina FIFO (First-In, First-Out): il primo elemento inserito è il primo a essere rimosso.
+Operazioni: creacoda(), incoda(x, C) [enqueue], fuoricoda(C) [dequeue], leggicoda(C), codavuota(C). Tutte devono costare O(1).
+
+Realizzazione con Array Circolare:
+In un array lineare di dimensione N, l'estrazione in testa costringerebbe a traslare tutti gli elementi rimanenti a sinistra con costo insostenibile O(n), oppure a far scorrere gli indici verso destra esaurendo l'array pur avendo celle libere all'inizio. Per risolvere ciò si gestiscono gli indici di testa (Head) e di coda (Tail) in modo circolare tramite l'operatore modulo N:
+• Avanzamento testa: Head = (Head + 1) mod N.
+• Avanzamento coda: Tail = (Tail + 1) mod N.
+In questo modo lo spazio liberato dalle estrazioni viene riutilizzato istantaneamente garantendo costo O(1) stretto per inserimenti ed estrazioni.</p>
+        </section>
+
+        <section>
+            <h3>D2.5: Definire la struttura dati Lista e descrivere l'implementazione basata su puntatori e cursori, evidenziando le equivalenze.</h3>
+            <p>Una Lista è una sequenza finita e ordinata di zero o più elementi omogenei L = &lt;a₁, a₂, ..., aₙ&gt; in cui ogni elemento (tranne il primo e l'ultimo) ha un predecessore e un successore univoci.
+
+• Implementazione con Puntatori: ogni elemento è un record allocato dinamicamente nello heap contenente il dato informativo e un indirizzo di memoria (puntatore) che referenzia direttamente il nodo successivo.
+• Implementazione con Cursori: si alloca un array statico di record Spazio[1..MAX], dove ciascuna cella contiene il dato e un campo intero next che memorizza l'indice della cella contenente l'elemento successivo (equivalenza concettuale: cursore = indice intero di array, NIL = 0). I record liberi sono concatenati in una lista ausiliaria di elementi liberi (gestita come pila).</p>
+        </section>
+
+        <section>
+            <h3>D2.6: Dire cosa si intende per: lista monodirezionale, bidirezionale, circolare e con sentinella. A cosa serve la sentinella e quali vantaggi offre? Mostrare un esempio pratico.</h3>
+            <p>• Lista monodirezionale: ogni nodo contiene un solo puntatore al nodo successivo.
+• Lista bidirezionale (doppiamente concatenata): ogni nodo contiene due puntatori: uno al successivo (next) e uno al precedente (prev).
+• Lista circolare: il puntatore next dell'ultimo elemento punta nuovamente al primo nodo (e il prev del primo punta all'ultimo, se bidirezionale).
+• Lista con Sentinella: contiene un nodo fittizio speciale (chiamato dummy node o sentinella) che non memorizza dati informativi e funge da punto di aggancio permanente sia per la testa che per la coda della lista.
+
+Vantaggi ed Esempio Pratico:
+La sentinella elimina tutti i casi limite (special cases) e le diramazioni condizionali if/else nel codice:
+Senza sentinella, l'inserimento o la cancellazione del primo elemento richiede di verificare se la lista è vuota (if (head == NULL)) e di aggiornare la variabile globale di testa head in modo asimmetrico rispetto agli altri nodi.
+Con la sentinella S, la lista non è mai vuota (contiene sempre almeno S). Qualsiasi inserimento di un nodo x tra due nodi generici p e q si riduce a 4 istruzioni incondizionate invarianti:
+x-&gt;next = q; x-&gt;prev = p; p-&gt;next = x; q-&gt;prev = x; senza alcun controllo if.</p>
+        </section>
+
+        <section>
+            <h3>D2.7: Data una lista singolarmente concatenata, valutare la complessità computazionale delle seguenti operazioni: 1) size(L); 2) insert(L, I); 3) search(L, I); 4) reverse(L).</h3>
+            <p>1. size(L): O(n) (se non si memorizza un contatore ausiliario, occorre scandire l'intera lista dalla testa fino a NIL).
+2. insert(L, I): O(1) se l'inserimento avviene in testa alla lista; O(n) se avviene in coda senza puntatore ausiliario all'ultimo elemento.
+3. search(L, I): O(n) nel caso peggiore (e medio), poiché l'elemento cercato può trovarsi in fondo o non essere presente, richiedendo la scansione lineare.
+4. reverse(L): O(n), poiché per invertire i puntatori occorre visitare sequenzialmente ogni nodo una sola volta modificandone il puntatore next in tempo costante per nodo.</p>
+        </section>
+
+        <h2>MODULO 3 - ORGANIZZAZIONI DI TIPO ALBERO, BST E HEAP</h2>
+
+        <section>
+            <h3>D3.1: Descrivere le tecniche di attraversamento degli alberi binari (previsita, invisita, postvisita). Mostrare un esempio univoco applicato allo stesso albero binario e indicare la complessità computazionale.</h3>
+            <p>Le visite sistematiche visitano ricorsivamente i nodi dell'albero in tempo Θ(n), poiché ogni nodo viene esaminato un numero costante di volte:
+• Previsita (Pre-order, Radice-Sinistra-Destra): si elabora prima la radice u, poi si visita ricorsivamente il sottoalbero sinistro T.left, infine il destro T.right.
+• Invisita (In-order/Simmetrica, Sinistra-Radice-Destra): si visita prima il sottoalbero sinistro T.left, poi si elabora la radice u, infine il destro T.right. In un BST stampa le chiavi in ordine rigorosamente crescente.
+• Postvisita (Post-order/Differita, Sinistra-Destra-Radice): si visita ricorsivamente il sottoalbero sinistro T.left, poi il destro T.right, infine si elabora la radice u (utilizzata per deallocare l'albero o calcolarne l'altezza).
+
+Esempio Univoco d'Esame: Si consideri l'albero binario con radice (10), figlio sinistro (5) con figli (2) e (8), e figlio destro (15) con figli (12) e (20):
+• Previsita (Pre-order): 10, 5, 2, 8, 15, 12, 20
+• Invisita (In-order): 2, 5, 8, 10, 12, 15, 20
+• Postvisita (Post-order): 2, 8, 5, 12, 20, 15, 10</p>
+        </section>
+
+        <section>
+            <h3>D3.2: Cosa si intende per Albero Binario di Ricerca (BST)? Specificare la complessità delle operazioni fondamentali e spiegare perché nel tempo il costo di tali operazioni può cambiare.</h3>
+            <p>Un Albero Binario di Ricerca (BST) è un albero binario in cui le chiavi soddisfano la seguente proprietà di ordinamento totale: per ogni nodo x, tutte le chiavi memorizzate nel suo sottoalbero sinistro sono strettamente minori della chiave di x (key[y] &lt; key[x], ∀ y ∈ left[x]) e tutte le chiavi nel sottoalbero destro sono strettamente maggiori (key[y] &gt; key[x], ∀ y ∈ right[x]).
+
+Costo delle operazioni: le operazioni di ricerca, inserimento, cancellazione, minimo e massimo richiedono tempo proporzionale all'altezza h dell'albero: O(h).
+
+Variazione temporale del costo: l'altezza h dipende dall'ordine con cui le chiavi vengono inserite e cancellate nel tempo:
+• Se l'albero rimane bilanciato, l'altezza è h = Θ(log n) e le operazioni costano O(log n).
+• Se le chiavi vengono inserite in sequenza già ordinata (es. 1, 2, 3, 4, 5, 6, 7), l'albero degenera in una lista lineare sbilanciata con altezza h = n-1, facendo degradare il costo a O(n) nel caso peggiore.</p>
+        </section>
+
+        <section>
+           <h3>D3.3: Disegnare l'albero binario di ricerca ottenuto inserendo le chiavi 1, 2, 3, 4, 5, 6, 7 nell'ordine dato. Qual è il problema? Come si risolve modificando l'ordine di inserimento?</h3>
+            <p>• Albero risultante: poiché ogni chiave è maggiore della precedente, ogni nodo verrà inserito come figlio destro del precedente. L'albero ha solo rami destri: 1 -&gt; (dx: 2) -&gt; (dx: 3) -&gt; (dx: 4) -&gt; (dx: 5) -&gt; (dx: 6) -&gt; (dx: 7).
+• Il problema: l'albero è completamente degenere (isomorfo a una lista concatenata) di altezza h = 6. Le operazioni di ricerca, inserimento e cancellazione perdono l'efficienza logaritmica e degradano a complessità lineare O(n).
+• Risoluzione: si modifica l'ordine di inserimento inserendo ricorsivamente la mediana dell'insieme ordinato come radice del sottoalbero corrente. Inserendo la sequenza:
+(4, 2, 6, 1, 3, 5, 7)
+si ottiene un albero perfettamente bilanciato con radice 4, sottoalbero sinistro con radice 2 (figli 1 e 3) e destro con radice 6 (figli 5 e 7), la cui altezza è minima pari a h = ⌊log₂ 7⌋ = 2 e complessità O(log n).</p>
+        </section>
+
+        <section>
+            <h3>D3.4: Descrivere l'operazione di cancellazione (Tree-Delete) su un BST per tutti i casi possibili, mostrando anche il caso di cancellazione della radice.</h3>
+            <p>Dato il nodo z da cancellare, si distinguono tre casi canonici:
+1. Caso 1 (z è una foglia, 0 figli): si stacca direttamente z dal padre impostando il relativo puntatore del genitore a NIL. (Costo: O(1)).
+2. Caso 2 (z ha un solo figlio): si scavalca z collegando direttamente il suo unico figlio al genitore di z. (Costo: O(1)).
+3. Caso 3 (z ha due figli): non è possibile rimuovere direttamente z. Si individua il suo successore in-ordine y (che è il nodo con chiave minima nel sottoalbero destro di z, calcolato con Tree-Minimum(right[z])). Poiché y è il minimo del sottoalbero destro, y non ha figlio sinistro (ha al più il figlio destro). Si rimuove y dal suo posto originale (applicando il caso 1 o 2) e si copia il valore della chiave di y nel nodo z.
+
+Esempio cancellazione della radice con 2 figli:
+Sia l'albero con radice (10), sinistra (5), destra (15 con figlio sinistro 12 e destro 20).
+Cancellando la radice 10: il suo successore in-ordine è il minimo del sottoalbero destro, cioè 12. Il nodo 12 viene rimosso dal sottoalbero destro e il valore 12 sale alla radice al posto del 10. La proprietà di ordinamento è preservata.</p>
+        </section>
+
+        <section>
+            <h3>D3.5: In un albero binario completo di altezza h quanti sono i nodi foglia e quanti i nodi totali? Giustificare la risposta.</h3>
+            <p>In un albero binario completo (in cui tutti i nodi non foglia hanno esattamente 2 figli e tutte le foglie si trovano al livello h):
+• Al livello 0 (radice) c'è 2⁰ = 1 nodo. Al livello 1 ci sono 2¹ = 2 nodi. Al generico livello i ci sono 2ⁱ nodi.
+• Numero di nodi foglia: si trovano tutte al livello massimo h, quindi sono esattamente 2ʰ.
+• Numero totale di nodi: è dato dalla somma della progressione geometrica:
+N = 2⁰ + 2¹ + 2² + ... + 2ʰ = 2ʰ⁺¹ - 1.</p>
+        </section>
+
+        <section>
+            <h3>D3.6: Cosa è un Max-Heap? Descrivere la rappresentazione vettoriale e scrivere lo pseudocodice di decrease-key(i, α) che decrementa A[i] di α ≥ 0 mantenendo la proprietà di max-heap.</h3>
+            <p>Un Max-Heap è un albero binario quasi completo che soddisfa la proprietà di max-heap: per ogni nodo i diverso dalla radice, il valore del padre è maggiore o uguale a quello del figlio: A[parent(i)] ≥ A[i]. La radice contiene il massimo assoluto.
+
+Rappresentazione tramite Array A[1..n]:
+• Radice: A[1].
+• Figlio sinistro di i: left(i) = 2i.
+• Figlio destro di i: right(i) = 2i + 1.
+• Padre di i: parent(i) = ⌊i/2⌋.
+
+Operazione decrease-key(A, i, α): decrementando il valore della chiave A[i], il nodo può diventare più piccolo dei propri figli violando la proprietà di max-heap. La violazione si propaga verso il basso ripristinando l'heap tramite la procedura Max-Heapify (restauraheap) in tempo O(log n):
+decrease-key(A, i, α) {
+  A[i] = A[i] - α;
+  Max-Heapify(A, i); /* fa scendere A[i] lungo il ramo scambiandolo col max dei figli */
+}</p>
+        </section>
+
+        <section>
+            <h3>D3.7: Nell'ambito delle code con priorità, illustrare la loro implementazione tramite heap descrivendo le tre proprietà fondamentali che devono essere soddisfatte.</h3>
+            <p>Le tre proprietà fondamentali dell'implementazione di una coda con priorità tramite Heap sono:
+1. Proprietà Strutturale (Albero quasi completo): l'albero binario è completamente riempito a tutti i livelli tranne eventualmente l'ultimo, che viene riempito da sinistra a destra senza buchi.
+2. Proprietà di Ordinamento Parziale dell'Heap: il valore di ciascun nodo è maggiore o uguale (nel max-heap) o minore o uguale (nel min-heap) di quello dei suoi figli. L'elemento a massima priorità si trova sempre alla radice.
+3. Rappresentazione Vettoriale Implicita: la struttura è memorizzata in un comune array contiguo senza puntatori espliciti, ricavando i legami padre-figlio con operazioni aritmetiche sugli indici (2i, 2i+1, ⌊i/2⌋) con efficienza spaziale ottimale O(n).</p>
+        </section>
+
+        <section>
+            <h3>D3.8: Descrivere la realizzazione padre/primo-figlio/fratello-destro (p/pf/fd) per alberi n-ari generici e confrontarla con la tecnica delle liste dei figli.</h3>
+            <p>• Tecnica Liste dei Figli: ogni nodo memorizza una lista concatenata di puntatori a tutti i propri figli. Svantaggi: elevata frammentazione della memoria e difficoltà a risalire al genitore (richiede puntatori aggiuntivi).
+• Realizzazione p/pf/fd: ogni nodo dell'albero è rappresentato da un record di dimensione fissa con esattamente tre puntatori:
+  1. padre (p): punta al genitore del nodo.
+  2. primo_figlio (pf): punta al primo figlio (il più a sinistra).
+  3. fratello_destro (fd): punta al fratello immediatamente successivo a destra.
+• Vantaggi: dimensione fissa dei nodi indipendentemente dal numero di figli (grado arbitrario n); permette di navigare agilmente sia verso il basso che verso l'alto che lateralmente.</p>
+        </section>
+
+        <section>
+            <h3>D3.9: Dire cosa si intende per albero di decisione e a cosa serve. Fornire un esempio.</h3>
+            <p>Un albero di decisione è un albero binario utilizzato come modello formale astratto per rappresentare il comportamento di qualsiasi algoritmo di ordinamento basato su confronti tra coppie di elementi (aᵢ ≤ aⱼ) per un input di dimensione fissata n.
+• Ogni nodo interno rappresenta un confronto binario aᵢ : aⱼ.
+• I due rami uscenti (sinistro e destro) rappresentano i due esiti possibili del confronto (≤ oppure &gt;).
+• Ogni foglia rappresenta una distinta permutazione ordinata finale degli n elementi. Poiché le permutazioni possibili di n elementi sono n!, l'albero deve contenere almeno n! foglie.
+
+Scopo teorico: Dimostrare che l'altezza dell'albero è h ≥ log₂(n!) = Ω(n log n), provando matematicamente che nessun algoritmo di ordinamento per confronto può avere complessità inferiore a Ω(n log n) nel caso peggiore.</p>
+        </section>
+
+        <h2>MODULO 4 - ORGANIZZAZIONI DATI DI TIPO RETICOLARE - GRAFI</h2>
+
+        <section>
+            <h3>D4.1: Dato un grafo con n nodi e m archi, indicare con precisione lo spazio di memoria necessario per la sua rappresentazione nei casi: a) orientato con matrice; b) non orientato con matrice; c) orientato con liste; d) non orientato con liste. È vero che la matrice richiede memoria proporzionale a n²?</h3>
+            <p>Sì, è vero: la rappresentazione con matrice di adiacenza alloca sempre una tabella bidimensionale di dimensione n × n, occupando uno spazio proporzionale a Θ(n²) indipendentemente dal numero di archi m.
+
+Dettaglio esatto dello spazio occupato:
+• (a) Grafo orientato con matrice di adiacenza: n² celle (matrice binaria A[i,j] = 1 se esiste l'arco (i, j), 0 altrimenti).
+• (b) Grafo non orientato con matrice di adiacenza: n² celle (matrice simmetrica; può essere compressa memorizzando solo la parte triangolare superiore/inferiore occupando n(n-1)/2 celle).
+• (c) Grafo orientato con liste di adiacenza: n teste di lista + m nodi (ogni arco (u, v) compare esattamente una volta nella lista di u). Spazio totale: Θ(n + m).
+• (d) Grafo non orientato con liste di adiacenza: n teste di lista + 2m nodi (ogni arco non orientato {u, v} viene memorizzato due volte: nella lista di u e in quella di v). Spazio totale: Θ(n + 2m) = Θ(n + m).</p>
+        </section>
+
+        <section>
+            <h3>D4.2: Matrice di adiacenza e liste di adiacenza: dato un nodo, qual è la complessità computazionale di un'operazione che calcola il grado del nodo nelle due rappresentazioni?</h3>
+            <p>• Con Matrice di adiacenza: Θ(n). Per determinare il grado di un nodo u occorre scorrere l'intera riga (o colonna) u della matrice di dimensione n contando quante celle valgono 1.
+• Con Liste di adiacenza: Θ(deg(u)) (oppure O(1) se la lista mantiene un campo contatore). Nel caso generale, occorre scorrere la lista dei vicini di u la cui lunghezza è esattamente pari al grado del nodo deg(u). Poiché per grafi sparsi deg(u) ≪ n, le liste risultano enormemente più efficienti.</p>
+        </section>
+
+        <section>
+            <h3>D4.3: Cosa si intende per matrice di incidenza di un grafo? Qual è la sua dimensione e lo spazio di memoria occupato rispetto alla matrice di adiacenza?</h3>
+            <p>Dato un grafo con n nodi e m archi, la matrice di incidenza M è una matrice di dimensioni n × m (n righe per i vertici, m colonne per gli archi).
+• Per grafi orientati: la cella M[v, e] = -1 se l'arco e esce da v; M[v, e] = +1 se l'arco e entra in v; 0 se il vertice v non appartiene all'arco e.
+• Per grafi non orientati: M[v, e] = 1 se v è un estremo di e, 0 altrimenti.
+
+Confronto: Occupa spazio Θ(n · m). È molto inefficiente per grafi densi (dove m ≈ n² ⇒ Θ(n³)) ed è utilizzata principalmente per formulazioni algebriche e problemi di flusso su reti.</p>
+        </section>
+
+        <section>
+            <h3>D4.4: Definire il concetto di componente connessa in un grafo non orientato. Come si determinano e con quale complessità?</h3>
+            <p>In un grafo non orientato, una componente connessa è un sottografo massimale connesso, ossia un sottoinsieme massimale di vertici V' ⊆ V tale che per ogni coppia di nodi in V' esiste almeno un cammino che li collega, e nessun vertice in V' è collegato a vertici esterni a V'.
+
+Algoritmo di calcolo: Si esegue una visita BFS o DFS completa del grafo. Si mantiene un array di nodi visitati (tutti inizialmente non marcati). Si itera su tutti i nodi: appena si trova un nodo non marcato, esso è il rappresentante di una nuova componente; lanciando una visita a partire da esso si marcano tutti i nodi appartenenti a quella componente. Ripetendo il processo si ottiene la partizione completa in tempo ottimo O(n + m).</p>
+        </section>
+
+        <section>
+            <h3>D4.5: Cosa si intende per grafo orientato fortemente connesso e per componente fortemente connessa (SCC)? Dato un grafo orientato, come si determinano tali componenti?</h3>
+            <p>• Un grafo orientato è fortemente connesso se per ogni coppia di vertici u, v ∈ V esiste sia un cammino orientato da u a v, sia un cammino orientato da v a u (mutua raggiungibilità).
+• Una componente fortemente connessa (SCC) è un sottografo orientato massimale fortemente connesso.
+
+Algoritmo di calcolo (Algoritmo di Kosaraju / Due passate DFS):
+1. Eseguire la visita DFS(G) calcolando i tempi di fine visita f[u] per ogni vertice u.
+2. Calcolare il grafo trasposto Gᵀ invertendo la direzione di tutti gli archi di G (tempo O(n + m)).
+3. Eseguire una seconda visita DFS(Gᵀ), considerando i nodi nel ciclo principale in ordine decrescente rispetto ai tempi f[u] calcolati al passo 1.
+Gli alberi della foresta DFS generati al passo 3 costituiscono esattamente le componenti fortemente connesse di G.
+Complessità complessiva: Θ(n + m) (ottima).</p>
+        </section>
+
+        <section>
+            <h3>D4.6: Descrivere la visita in profondità (DFS). La DFS partiziona gli archi in quattro classi: descrivere queste quattro classi (T, B, F, C), le condizioni temporali e spiegare come si riconoscono i cicli.</h3>
+            <p>La visita DFS (Depth-First Search) esplora il grafo scendendo lungo i rami verso le foglie prima di tornare indietro (backtracking), associando a ciascun vertice un tempo di scoperta d[u] (quando diventa grigio) e di fine visita f[u] (quando diventa nero). Complessità: Θ(n + m).
+
+La DFS partiziona gli archi (u, v) del grafo orientato in quattro classi disgiunte:
+1. Archi d'Albero (Tree edges - T): archi che portano alla scoperta di un nodo v mai visitato prima (v è BIANCO al momento dell'esame). Costituiscono la foresta DFS.
+2. Archi all'Indietro (Back edges - B): collegano un nodo u a un suo antenato v nell'albero DFS (v è GRIGIO al momento dell'esame; intervallo d[v] &lt; d[u] &lt; f[u] &lt; f[v]). La presenza di almeno un arco all'indietro è condizione necessaria e sufficiente per l'esistenza di un ciclo nel grafo!
+3. Archi in Avanti (Forward edges - F): collegano un nodo u a un suo discendente proprio v nell'albero DFS che è già stato completato (v è NERO; intervallo d[u] &lt; d[v] &lt; f[v] &lt; f[u]).
+4. Archi di Attraversamento / Trasversali (Cross edges - C): collegano due nodi tra cui non sussiste alcuna relazione di parentela nell'albero (nodi in rami diversi o alberi distinti). Il nodo v è già completamente chiuso (v è NERO) prima della scoperta di u: d[v] &lt; f[v] &lt; d[u] &lt; f[u].</p>
+        </section>
+
+        <section>
+            <h3>D4.7: Descrivere l'algoritmo di visita in ampiezza (BFS) di un grafo, indicando la struttura dati usata, la complessità temporale e la proprietà dei cammini minimi.</h3>
+            <p>La visita BFS (Breadth-First Search) esplora il grafo a ventaglio per livelli concentrici di distanza crescente a partire da un vertice sorgente s.
+• Struttura dati fondamentale: utilizza una coda (FIFO) per memorizzare i nodi scoperti (grigi) in attesa di visitarne la lista di adiacenza.
+• Complessità temporale: Θ(n + m) su liste di adiacenza (ogni nodo viene inserito ed estratto dalla coda una sola volta, e ogni lista di adiacenza viene scandita una volta).
+• Proprietà dei Cammini Minimi: su grafi non pesati (o a costo unitario), per ogni nodo v la distanza calcolata da BFS d[v] coincide esattamente con la lunghezza del cammino minimo (minor numero di archi) da s a v. L'albero dei predecessori π generato da BFS è l'albero dei cammini minimi.</p>
+        </section>
+
+        <section>
+            <h3>D4.8: Dato un grafo non orientato, dire cosa si intende per catena semplice, catena chiusa e circuito. Mostrare un esempio.</h3>
+            <p>• Catena: sequenza alternata di vertici e archi v₀, e₁, v₁, e₂, ..., eₖ, vₖ tale che ogni arco eᵢ collega vᵢ₋₁ e vᵢ.
+• Catena semplice: catena in cui tutti i vertici (e di conseguenza gli archi) sono tutti distinti tra loro (es. A - B - C - D).
+• Catena chiusa: catena in cui il vertice iniziale coincide con il vertice finale: v₀ = vₖ.
+• Circuito (o ciclo non orientato): è una catena chiusa semplice, in cui il vertice iniziale coincide con quello finale (v₀ = vₖ) e tutti i vertici intermedi v₁, ..., vₖ₋₁ sono distinti tra loro (es. A - B - C - A).</p>
+        </section>
+
+        <h2>MODULO 5 - TABELLE HASH E INSIEMI DISGIUNTI (MFSET)</h2>
+
+        <section>
+            <h3>D5.1: Cosa sono le tabelle di hash? Perché si verificano le collisioni? Cosa si intende per hashing uniforme semplice?</h3>
+            <p>Una tabella di hash è una struttura dati utilizzata per implementare il tipo di dato astratto Dizionario, memorizzando elementi caratterizzati da una chiave appartenente a un universo U in una tabella T[0..m-1] di dimensione m tramite una funzione hash h: U → {0, 1, ..., m-1}.
+
+• Perché si verificano le collisioni: una collisione avviene quando due chiavi distinte k₁ ≠ k₂ hanno lo stesso valore hash: h(k₁) = h(k₂). Poiché l'universo delle chiavi possibili è normalmente molto più grande della dimensione della tabella (|U| ≫ m), per il Principio dei cassetti (di Dirichlet) è matematicamente inevitabile che chiavi distinte siano mappate nella medesima cella.
+• Ipotesi di Hashing Uniforme Semplice (SUHA): è l'ipotesi teorica secondo cui ciascuna chiave ha la stessa identica probabilità 1/m di essere indirizzata in una qualunque delle m celle della tabella, indipendentemente dalla cella in cui sono state inserite le altre chiavi.</p>
+        </section>
+
+        <section>
+            <h3>D5.2: Quali sono le tecniche per gestire le collisioni nelle tabelle hash? Confrontare chaining esterno e indirizzamento aperto. Il numero di collisioni è minore se si usa l'hashing lineare o le liste?</h3>
+            <p>Esistono due macro-tecniche principali per risolvere le collisioni:
+1. Concatenamento (Chaining Esterno / Liste di Trabocco): ogni cella T[i] della tabella punta a una lista concatenata di tutti gli elementi che collidono su quell'indice. Il fattore di carico α = n/m può essere maggiore di 1. Costo medio di ricerca: Θ(1 + α).
+2. Indirizzamento Aperto (Open Addressing): tutti gli elementi sono memorizzati direttamente nelle celle della tabella (nessun puntatore esterno). Se la cella calcolata è occupata, si esamina sistematicamente una sequenza di celle alternative tramite un metodo di scansione interna finché non si trova una cella vuota. Deve valere n ≤ m ⇒ α ≤ 1.
+
+Domanda d'esame frequente: «Il numero di collisioni è minore se si usa l'hashing lineare o le liste?»
+Risposta: Il numero di collisioni primarie è identico in entrambi i casi, poiché dipende unicamente dalla funzione hash di base h'(k) e dall'insieme delle chiavi inserite. Cambia unicamente la modalità di gestione e risoluzione: il chaining memorizza i conflitti all'esterno della tabella, mentre l'hashing lineare li memorizza all'interno della tabella stessa generando ulteriori collisioni secondarie.</p>
+        </section>
+
+        <section>
+            <h3>D5.3: Nell'ambito delle tabelle di hash, descrivere i metodi di scansione interna: lineare, quadratica e doppio hashing. Perché servono queste diverse scansioni? Descrivere i fenomeni di clustering.</h3>
+            <p>Nell'indirizzamento aperto, la funzione hash include il numero del tentativo i ∈ {0, 1, ..., m-1}: h(k, i).
+
+1. Scansione Lineare:
+• Formula: h(k, i) = (h'(k) + i) mod m.
+• Ispeziona le celle consecutive adiacenti (h'(k), h'(k)+1, h'(k)+2, ...).
+• Problema del Clustering Primario: si creano lunghe strisce continue di celle occupate. Ogni chiave che collide con una qualsiasi cella della striscia ne allunga la dimensione, degradando drasticamente il tempo medio di ricerca verso O(n).
+
+2. Scansione Quadratica:
+• Formula: h(k, i) = (h'(k) + c₁ · i + c₂ · i²) mod m (oppure (h'(k) + i²) mod m).
+• L'ampiezza dei salti cresce quadraticamente (+1, +4, +9, +16, ...). Risolve il clustering primario rompendo le strisce contigue.
+• Problema del Clustering Secondario: chiavi che hanno la stessa funzione iniziale h'(k₁) = h'(k₂) generano l'identica sequenza di scansione.
+
+3. Doppio Hashing (Doppia Funzione Hash):
+• Formula: h(k, i) = (h₁(k) + i · h₂(k)) mod m.
+• L'ampiezza del salto è determinata da una seconda funzione hash h₂(k) dipendente dal valore della chiave.
+• Due chiavi che collidono al primo tentativo su h₁(k₁) = h₁(k₂) avranno valori di h₂(k₁) ≠ h₂(k₂) diversi, generando sequenze di scansione completamente disgiunte. Elimina sia il clustering primario che quello secondario avvicinandosi all'hashing uniforme ideale.
+• Vincolo: h₂(k) deve essere coprimo con la dimensione m (es. m primo e h₂(k) = 1 + (k mod (m-1))) per garantire l'ispezione di tutte le m celle.</p>
+        </section>
+
+        <section>
+            <h3>D5.4: Descrivere la struttura dati MFSET (Merge-Find Set per insiemi disg
+          
